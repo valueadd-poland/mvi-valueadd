@@ -1,37 +1,61 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+// Android library configuration
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion deps.build_version.compile_sdk
+    buildToolsVersion deps.build_version.tools
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion deps.build_version.min_sdk
+        targetSdkVersion deps.build_version.target_sdk
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
 
     buildTypes {
-        release {
+
+        debug {
+            useProguard false
             minifyEnabled false
+        }
+
+        release {
+            useProguard true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
 }
 
+// Dependencies configuration
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    // Application files
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    //AndroidX
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.core_ktx
+
+    // Kotlin
+    implementation deps.kotlin.stdlib_jdk8
+
+    // Reactivex
+    implementation deps.rx.java
+    implementation deps.rx.android
+    implementation deps.rx.kotlin
+    implementation deps.rx.binding
+
+    // Utility
+    implementation deps.utility.apache_lang
 }

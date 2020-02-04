@@ -1,2 +1,4 @@
 include ':app', ':library'
-rootProject.name='Example'
+
+rootProject.name='MVI-ValueAdd'
+

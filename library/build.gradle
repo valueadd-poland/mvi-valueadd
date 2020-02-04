@@ -46,6 +46,7 @@ dependencies {
     //AndroidX
     implementation deps.androidx.appcompat
     implementation deps.androidx.core_ktx
+    implementation deps.androidx.material
 
     // Kotlin
     implementation deps.kotlin.stdlib_jdk8
@@ -58,4 +59,5 @@ dependencies {
 
     // Utility
     implementation deps.utility.apache_lang
+    implementation deps.utility.fragmentation
 }

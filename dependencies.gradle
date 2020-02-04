@@ -62,7 +62,6 @@ versions.easy_validation = "1.0.1"
 versions.fragmentation = "1.0.1"
 versions.material_progress_bar = "1.6.1"
 versions.fast_adapter = "4.0.1"
-versions.mosby = "3.1.1"
 deps.versions = versions
 ext.versions = versions
 
@@ -118,21 +117,6 @@ androidx.card_view = "androidx.cardview:cardview:$versions.androidx_card_view"
 androidx.grid_layout = "androidx.gridlayout:gridlayout:$versions.androidx_grid_layout"
 androidx.annotation = "androidx.annotation:annotation:$versions.androidx_annotation"
 deps.androidx = androidx
-
-/**
- * MVP pattern variables.
- */
-def mvp = [:]
-mvp.mosby_view_state = "com.hannesdorfmann.mosby3:viewstate:$versions.mosby"
-mvp.mosby_queuing = "com.hannesdorfmann.mosby3:mvp-queuing-presenter:$versions.mosby"
-deps.mvp = mvp
-
-/**
- * MVI pattern variables.
- */
-def mvi = [:]
-mvi.mosby = "com.hannesdorfmann.mosby3:mvi:$versions.mosby"
-deps.mvi = mvi
 
 /**
  * View variables.

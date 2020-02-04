@@ -1,3 +1,50 @@
 <resources>
-    <string name="app_name">Example</string>
+
+    <string name="app_name">Example MVI</string>
+
+    <!-- Common -->
+
+    <string name="common_ok">OK</string>
+    <string name="common_no">No</string>
+    <string name="common_yes">Yes</string>
+    <string name="common_empty"/>
+
+    <!-- Menu -->
+
+    <string name="menu_account">Account</string>
+
+    <!-- First screen -->
+
+    <string name="first_title">First fragment</string>
+    <string name="first_add">Add</string>
+    <string name="first_remove">Remove</string>
+
+    <!-- Second screen -->
+
+    <string name="second_title">Second fragment</string>
+
+    <!-- Third screen -->
+
+    <string name="third_title">Third fragment</string>
+
+    <!-- Navigation -->
+
+    <string name="navigation_first">First</string>
+    <string name="navigation_second">Second</string>
+    <string name="navigation_third">Third</string>
+
+    <!-- About screen -->
+
+    <string name="about_title">About</string>
+
+    <!-- Account screen -->
+
+    <string name="account_title">Account</string>
+    <string name="account_name">Name</string>
+    <string name="account_surname">Surname</string>
+    <string name="account_email">E-mail</string>
+    <string name="account_save">Save</string>
+    <string name="first_result">Result:</string>
+    <string name="about_process">Process</string>
+
 </resources>

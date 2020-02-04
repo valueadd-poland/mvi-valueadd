@@ -26,12 +26,10 @@ android {
     buildTypes {
 
         debug {
-            useProguard false
             minifyEnabled false
         }
 
         release {
-            useProguard true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -42,8 +40,18 @@ android {
 // Dependencies configuration
 dependencies {
 
+    // Implement base library
+    implementation project(":library")
+
     // Application files
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    // Annotation Processor
+    kapt deps.di.toothpick_compiler
+
+    // Dependency Injection
+    api deps.di.toothpick
+    api deps.di.toothpick_smoothie
 
     // Kotlin
     implementation deps.kotlin.stdlib_jdk8
@@ -54,14 +62,15 @@ dependencies {
     implementation deps.rx.kotlin
     implementation deps.rx.binding
 
+    // FastAdapter
+    implementation deps.fast_adapter.core
+    implementation deps.fast_adapter.scroll
+    implementation deps.fast_adapter.utils
+    implementation deps.fast_adapter.diff
+
     // Utility
     implementation deps.utility.apache_lang
-    implementation deps.utility.glide
     implementation deps.utility.fragmentation
-
-    // Annotation Processor
-    kapt deps.di.toothpick_compiler
-    kapt deps.utility.glide_compiler
 
     // AndroidX
     implementation deps.androidx.appcompat

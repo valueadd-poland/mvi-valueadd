@@ -31,10 +31,10 @@ jobs:
           command: ./gradlew pmd
       - run:
           name: Run Lint
-          command: ./gradlew lintProdRelease
+          command: ./gradlew lintRelease
       - run:
           name: Run Tests
-          command: ./gradlew testDevDebug
+          command: ./gradlew testDebug
       - store_artifacts:
           path: app/build/reports
           destination: reports

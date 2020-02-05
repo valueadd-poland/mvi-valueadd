@@ -7,14 +7,13 @@ import pl.valueadd.mvi.example.presentation.main.root.RootFragment
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_first.*
 import pl.valueadd.mvi.example.R
-import pl.valueadd.mvi.example.presentation.base.AbstractMviFragment
-import pl.valueadd.mvi.fragment.base.BaseMviFragment
+import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.example.utility.extension.onSuccess
 import pl.valueadd.mvi.example.utility.extension.throttleClicks
 import javax.inject.Inject
 
 class FirstFragment :
-    AbstractMviFragment<FirstView, FirstViewState, FirstView.Intent, FirstPresenter>(R.layout.fragment_first),
+    AbstractBaseMviFragment<FirstView, FirstViewState, FirstView.Intent, FirstPresenter>(R.layout.fragment_first),
     FirstView {
 
     companion object {

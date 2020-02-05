@@ -5,7 +5,7 @@ import android.view.View
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_third.aboutButton
 import pl.valueadd.mvi.example.R
-import pl.valueadd.mvi.example.presentation.base.AbstractMviFragment
+import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.example.presentation.main.about.AboutFragment
 import pl.valueadd.mvi.example.presentation.main.root.RootFragment
 import pl.valueadd.mvi.example.utility.extension.onSuccess
@@ -13,7 +13,7 @@ import pl.valueadd.mvi.example.utility.extension.throttleClicks
 import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
-class ThirdFragment : AbstractMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, ThirdPresenter>(
+class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, ThirdPresenter>(
     R.layout.fragment_third),
     ThirdView {
 

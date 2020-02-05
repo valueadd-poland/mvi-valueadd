@@ -6,11 +6,12 @@ import kotlinx.android.synthetic.main.fragment_account.emailText
 import kotlinx.android.synthetic.main.fragment_account.firstNameText
 import kotlinx.android.synthetic.main.fragment_account.surnameText
 import pl.valueadd.mvi.example.R
+import pl.valueadd.mvi.example.presentation.base.AbstractBackMviFragment
 import pl.valueadd.mvi.fragment.back.BackMviFragment
 import javax.inject.Inject
 
 class AccountFragment :
-    BackMviFragment<AccountView, AccountViewState, AccountView.Intent, AccountPresenter>(R.layout.fragment_account),
+    AbstractBackMviFragment<AccountView, AccountViewState, AccountView.Intent, AccountPresenter>(R.layout.fragment_account),
     AccountView {
 
     companion object {

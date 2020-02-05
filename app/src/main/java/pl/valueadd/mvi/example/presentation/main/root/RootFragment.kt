@@ -3,14 +3,15 @@ package pl.valueadd.mvi.example.presentation.main.root
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toolbar
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_root.bottomNavigation
+import kotlinx.android.synthetic.main.fragment_root.*
 import pl.valueadd.mvi.example.R
-import pl.valueadd.mvi.example.presentation.base.AbstractMviFragment
+import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.example.presentation.main.account.AccountFragment
 import pl.valueadd.mvi.example.presentation.main.first.FirstFragment
 import pl.valueadd.mvi.example.presentation.main.second.SecondFragment
@@ -21,7 +22,7 @@ import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
 class RootFragment :
-    AbstractMviFragment<RootView, RootViewState, IBaseView.IBaseIntent, RootPresenter>(R.layout.fragment_root),
+    AbstractBaseMviFragment<RootView, RootViewState, IBaseView.IBaseIntent, RootPresenter>(R.layout.fragment_root),
     RootView {
 
     companion object {
@@ -38,8 +39,7 @@ class RootFragment :
     @IdRes
     private val childFragmentContainer: Int = R.id.fragmentContainer
 
-    private val toolbar: Toolbar
-        get() = view!!.findViewById(R.id.toolbar)
+    private lateinit var toolbar: Toolbar
 
     private val rootFragments: Array<IBaseFragment?> = arrayOfNulls(ROOT_NAVIGATION_SIZE)
 
@@ -55,8 +55,8 @@ class RootFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initializeToolbar(view)
         initializeBottomNavigation()
-        initializeToolbar()
 
         loadRootFragments()
     }
@@ -161,14 +161,20 @@ class RootFragment :
         bottomNavigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
-    private fun initializeToolbar() = with(toolbar) {
+    private fun initializeToolbar(view: View) {
+        toolbar = view
+            .findViewById<AppBarLayout>(R.id.baseAppBarLayout)
+            .findViewById(R.id.baseToolbar)
 
-        inflateMenu(R.menu.main_menu)
+        toolbar.apply {
 
-        setOnMenuItemClickListener(::onOptionsItemSelected)
+            inflateMenu(R.menu.main_menu)
 
-        setToolbarTitle(R.string.first_title)
+            setOnMenuItemClickListener(::onOptionsItemSelected)
 
-        menu.show(R.id.action_account)
+            setToolbarTitle(R.string.first_title)
+
+            menu.show(R.id.action_account)
+        }
     }
 }

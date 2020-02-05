@@ -41,7 +41,7 @@ android {
 dependencies {
 
     // Implement base library
-    implementation project(":library")
+    implementation project(':mvi-valueadd')
 
     // Application files
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])

@@ -7,11 +7,11 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_second.recyclerView
 import pl.valueadd.mvi.example.R
-import pl.valueadd.mvi.example.presentation.base.AbstractMviFragment
+import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
-class SecondFragment : AbstractMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, SecondPresenter>(
+class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, SecondPresenter>(
     R.layout.fragment_second),
     SecondView {
 

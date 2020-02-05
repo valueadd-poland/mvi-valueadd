@@ -3,9 +3,9 @@ package pl.valueadd.mvi.example.presentation.base
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import pl.valueadd.mvi.example.utility.dependencyinjection.DependencyUtil
-import pl.valueadd.mvi.fragment.base.BaseFragment
+import pl.valueadd.mvi.fragment.back.BackFragment
 
-abstract class AbstractFragment(@LayoutRes layoutId: Int) : BaseFragment(layoutId) {
+abstract class AbstractBackFragment(@LayoutRes layoutId: Int) : BackFragment(layoutId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         DependencyUtil.inject(requireActivity(), this)

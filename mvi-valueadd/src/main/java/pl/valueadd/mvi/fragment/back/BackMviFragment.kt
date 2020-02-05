@@ -15,7 +15,7 @@ import pl.valueadd.mvi.fragment.mvi.IBaseView.IBaseIntent
 import pl.valueadd.mvi.fragment.mvi.IBaseViewState
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
-abstract class BackMviFragment<V : IBaseView<VS, VI>, VS : IBaseViewState, VI: IBaseIntent, P : BaseMviPresenter<VS, *, VI, V>>(@LayoutRes layoutId: Int) :
+abstract class BackMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
     BaseMviFragment<V, VS, VI, P>(layoutId),
     IBackFragment {
 

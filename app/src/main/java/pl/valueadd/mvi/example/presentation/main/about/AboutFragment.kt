@@ -2,11 +2,12 @@ package pl.valueadd.mvi.example.presentation.main.about
 
 import io.reactivex.Observable
 import pl.valueadd.mvi.example.R
-import pl.valueadd.mvi.fragment.back.BackMviFragment
+import pl.valueadd.mvi.example.presentation.base.AbstractBackMviFragment
 import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
-class AboutFragment : BackMviFragment<AboutView, AboutViewState, IBaseView.IBaseIntent, AboutPresenter>(R.layout.fragment_about),
+class AboutFragment :
+    AbstractBackMviFragment<AboutView, AboutViewState, IBaseView.IBaseIntent, AboutPresenter>(R.layout.fragment_about),
     AboutView {
 
     companion object {

@@ -1,0 +1,39 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- All margin sizes -->
+    <dimen name="margin_none">0dp</dimen>
+    <dimen name="margin_micro">1dp</dimen>
+    <dimen name="margin_tiny">2dp</dimen>
+    <dimen name="margin_very_small">4dp</dimen>
+    <dimen name="margin_small">6dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
+    <dimen name="margin_big">10dp</dimen>
+    <dimen name="margin_huge">12dp</dimen>
+    <dimen name="margin_giant">16dp</dimen>
+    <dimen name="margin_enormous">18dp</dimen>
+    <dimen name="margin_colossal">24dp</dimen>
+    <dimen name="margin_cosmic">30dp</dimen>
+    <dimen name="margin_universe">48dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="text_tiny_size">9sp</dimen>
+    <dimen name="text_very_very_small_size">10sp</dimen>
+    <dimen name="text_very_small_size">11sp</dimen>
+    <dimen name="text_little_small_size">12sp</dimen>
+    <dimen name="text_small_size">13sp</dimen>
+    <dimen name="text_normal_size">15sp</dimen>
+    <dimen name="text_big_size">17sp</dimen>
+    <dimen name="text_huge_size">19sp</dimen>
+    <dimen name="text_grand_size">20sp</dimen>
+    <dimen name="text_giant_size">21sp</dimen>
+    <dimen name="text_enormous_size">25sp</dimen>
+    <dimen name="text_colossal_size">28sp</dimen>
+    <dimen name="text_cosmic_size">32sp</dimen>
+
+    <!-- Defined sizes-->
+    <dimen name="_1dp">1dp</dimen>
+
+    <!-- Component sizes -->
+    <dimen name="material_cell_height">52dp</dimen>
+
+</resources>

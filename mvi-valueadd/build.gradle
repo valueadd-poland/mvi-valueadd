@@ -56,6 +56,5 @@ dependencies {
     implementation deps.rx.binding
 
     // Utility
-    implementation deps.utility.apache_lang
     implementation deps.utility.fragmentation
 }

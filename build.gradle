@@ -12,14 +12,21 @@ buildscript {
     }
 }
 
+plugins {
+    id "io.gitlab.arturbosch.detekt" version "1.0.0"
+}
+
 /**
  * Dependencies for all projects
  */
 allprojects {
     repositories {
         applyRepositories(repositories)
-        apply from: "$rootDir/scripts/ktlint.gradle"
     }
+    apply from: "$rootDir/scripts/detekt.gradle"
+    apply from: "$rootDir/scripts/ktlint.gradle"
+    apply from: "$rootDir/scripts/findbugs.gradle"
+    apply from: "$rootDir/scripts/pmd.gradle"
 }
 
 /**

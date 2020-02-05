@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <Blacklist/>
+  <Whitelist>
+
+    <!-- TooManyFunctions -->
+
+    <ID>TooManyFunctions:BaseCache.kt$BaseCache</ID>
+    <ID>TooManyFunctions:CountryMapper.kt$CountryMapper</ID>
+
+    <!-- MagicNumber -->
+
+    <ID>MagicNumber:ExceptionNetworkManager.kt$ExceptionNetworkManager$400</ID>
+    <ID>MagicNumber:ExceptionNetworkManager.kt$ExceptionNetworkManager$500</ID>
+    <ID>MagicNumber:ExceptionNetworkManager.kt$ExceptionNetworkManager$600</ID>
+
+    <!-- MatchingDeclarationName -->
+
+    <ID>MatchingDeclarationName:Glide.kt$pl.valueadd.restcountries.utility.image.Glide.kt</ID>
+
+    <!-- NestedBlockDepth -->
+
+    <ID>NestedBlockDepth:CharSequence.kt$fun List&lt;String&gt;.merge(separator: Char = ','): String</ID>
+
+  </Whitelist>
+</SmellBaseline>

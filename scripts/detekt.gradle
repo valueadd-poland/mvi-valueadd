@@ -1,0 +1,13 @@
+apply plugin: 'io.gitlab.arturbosch.detekt'
+
+detekt {
+    config = files("$rootDir/scripts/default-detekt-config.yml")
+    filters = ".*build.*,.*/resources/.*,.*/tmp/.*"
+    baseline = file("$rootDir/scripts/baseline.xml")
+
+    reports {
+        txt {
+            enabled = true
+        }
+    }
+}

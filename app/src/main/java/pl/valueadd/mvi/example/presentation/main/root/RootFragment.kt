@@ -72,7 +72,7 @@ class RootFragment :
     }
 
     override fun render(state: RootViewState) {
-        //no-op
+        // no-op
     }
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()

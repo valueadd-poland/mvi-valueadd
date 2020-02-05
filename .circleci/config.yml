@@ -31,7 +31,7 @@ jobs:
           command: ./gradlew pmd
       - run:
           name: Run Lint
-          command: ./gradlew lintProdRelease
+          command: ./gradlew lintRelease
       - run:
           name: Run Tests
           command: ./gradlew testDevDebug

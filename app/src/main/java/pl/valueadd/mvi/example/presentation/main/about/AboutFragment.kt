@@ -23,7 +23,7 @@ class AboutFragment :
         R.string.about_title
 
     override fun render(state: AboutViewState) {
-        //TODO("not implemented")
+        // TODO("not implemented")
     }
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()

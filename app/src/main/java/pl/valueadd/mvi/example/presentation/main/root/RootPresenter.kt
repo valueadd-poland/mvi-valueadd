@@ -10,10 +10,9 @@ class RootPresenter
     RootViewState()
 ) {
 
-    override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out RootViewState.PartialState>
-        = Observable.never()
+    override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out RootViewState.PartialState> =
+        Observable.never()
 
-    override fun reduce(previousState: RootViewState, action: RootViewState.PartialState): RootViewState
-        = previousState
-
+    override fun reduce(previousState: RootViewState, action: RootViewState.PartialState): RootViewState =
+        previousState
 }

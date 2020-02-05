@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
-interface IBaseView<VS : IBaseViewState, VI: IBaseView.IBaseIntent> : Disposable {
+interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposable {
 
     val disposables: CompositeDisposable
 

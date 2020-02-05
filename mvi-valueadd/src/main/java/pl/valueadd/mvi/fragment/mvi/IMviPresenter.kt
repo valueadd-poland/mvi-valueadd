@@ -7,5 +7,4 @@ interface IMviPresenter<V : IBaseView<*, *>> {
     fun detachView()
 
     fun destroy()
-
 }

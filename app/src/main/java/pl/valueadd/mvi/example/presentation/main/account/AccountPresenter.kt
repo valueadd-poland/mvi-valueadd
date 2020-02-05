@@ -27,5 +27,4 @@ class AccountPresenter @Inject constructor() :
             is AccountView.Intent.EmailChanged ->
                 Observable.just(AccountViewState.PartialState.EmailChanged(viewIntent.newValue))
         }
-
 }

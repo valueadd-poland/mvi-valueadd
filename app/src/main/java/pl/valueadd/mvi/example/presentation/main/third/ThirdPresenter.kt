@@ -10,8 +10,6 @@ class ThirdPresenter @Inject constructor() :
         ThirdViewState()
     ) {
 
-
-
     override fun reduce(
         previousState: ThirdViewState,
         action: ThirdViewState.PartialState

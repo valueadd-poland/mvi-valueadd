@@ -50,8 +50,8 @@ dependencies {
     kapt deps.di.toothpick_compiler
 
     // Dependency Injection
-    api deps.di.toothpick
-    api deps.di.toothpick_smoothie
+    implementation deps.di.toothpick
+    implementation deps.di.toothpick_smoothie
 
     // Kotlin
     implementation deps.kotlin.stdlib_jdk8

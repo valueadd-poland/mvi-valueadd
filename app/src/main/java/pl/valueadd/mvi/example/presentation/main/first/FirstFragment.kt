@@ -70,5 +70,4 @@ class FirstFragment :
             .throttleClicks()
             .onSuccess(disposables, { navigateToAboutView() })
     }
-
 }

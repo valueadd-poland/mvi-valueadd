@@ -5,7 +5,6 @@ buildscript {
     repositories {
         apply from: "dependencies.gradle"
         applyRepositories(repositories)
-
     }
     dependencies {
         classpath deps.build.android_gradle_plugin
@@ -19,6 +18,7 @@ buildscript {
 allprojects {
     repositories {
         applyRepositories(repositories)
+        apply from: "$rootDir/scripts/ktlint.gradle"
     }
 }
 

@@ -252,6 +252,4 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
             viewStateReducerDisposable = null
         }
     }
-
-
 }

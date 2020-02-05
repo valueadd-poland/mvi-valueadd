@@ -8,6 +8,6 @@ import pl.valueadd.mvi.fragment.mvi.IBaseViewState
 class RootViewState :
     IBaseViewState {
 
-    sealed class PartialState:
+    sealed class PartialState :
         IBasePartialState
 }

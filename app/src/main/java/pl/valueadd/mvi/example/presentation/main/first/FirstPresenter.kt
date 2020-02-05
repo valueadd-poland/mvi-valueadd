@@ -8,8 +8,7 @@ import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FirstPresenter @Inject constructor(
-) : BaseMviPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>(
+class FirstPresenter @Inject constructor() : BaseMviPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>(
     FirstViewState()
 ) {
 
@@ -31,13 +30,13 @@ class FirstPresenter @Inject constructor(
     }
 
     private fun handleIncreaseCountIntent(): Observable<out FirstViewState.PartialState> {
-        return Single.just (currentState.count + 1)
+        return Single.just(currentState.count + 1)
             .map { FirstViewState.PartialState.ChangeCountSuccess(it) }
             .toObservable()
     }
 
     private fun handleDecreaseCountIntent(): Observable<out FirstViewState.PartialState> {
-        return Single.just (currentState.count - 1)
+        return Single.just(currentState.count - 1)
             .map { FirstViewState.PartialState.ChangeCountSuccess(it) }
             .toObservable()
     }
@@ -47,7 +46,6 @@ class FirstPresenter @Inject constructor(
             .just(currentState.count)
             .doOnNext { Log.d("MVI-FirstPresenter", "processData") }
             .delay(5, TimeUnit.SECONDS)
-            .map { count -> FirstViewState.PartialState.ProcessDataSuccess("$count%" ) }
+            .map { count -> FirstViewState.PartialState.ProcessDataSuccess("$count%") }
     }
-
 }

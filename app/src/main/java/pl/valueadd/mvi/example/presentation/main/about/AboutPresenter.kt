@@ -15,6 +15,6 @@ class AboutPresenter @Inject constructor() :
         action: AboutViewState.PartialState
     ): AboutViewState = previousState
 
-    override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out AboutViewState.PartialState>
-        = Observable.never()
+    override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out AboutViewState.PartialState> =
+        Observable.never()
 }

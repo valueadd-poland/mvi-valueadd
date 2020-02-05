@@ -7,8 +7,7 @@ import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
 class SecondPresenter
-@Inject constructor(
-) : BaseMviPresenter<SecondViewState, SecondViewState.PartialState, IBaseView.IBaseIntent, SecondView>(
+@Inject constructor() : BaseMviPresenter<SecondViewState, SecondViewState.PartialState, IBaseView.IBaseIntent, SecondView>(
     SecondViewState()
 ) {
 
@@ -21,5 +20,4 @@ class SecondPresenter
     }
 
     override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out SecondViewState.PartialState> = Observable.never()
-
 }

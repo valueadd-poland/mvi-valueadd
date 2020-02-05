@@ -1,13 +1,13 @@
 package pl.valueadd.mvi.example.presentation.main.account
 
-import com.jakewharton.rxbinding3.widget.textChanges
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_account.emailText
 import kotlinx.android.synthetic.main.fragment_account.firstNameText
 import kotlinx.android.synthetic.main.fragment_account.surnameText
 import pl.valueadd.mvi.example.R
 import pl.valueadd.mvi.example.presentation.base.AbstractBackMviFragment
-import pl.valueadd.mvi.fragment.back.BackMviFragment
+import pl.valueadd.mvi.example.utility.extension.applyTextChanges
+import pl.valueadd.mvi.example.utility.extension.throttleTextChanges
 import javax.inject.Inject
 
 class AccountFragment :
@@ -27,9 +27,9 @@ class AccountFragment :
         R.string.account_title
 
     override fun render(state: AccountViewState) {
-        firstNameText.setText(state.firstName)
-        surnameText.setText(state.surname)
-        emailText.setText(state.email)
+        firstNameText.applyTextChanges(state.firstName)
+        surnameText.applyTextChanges(state.surname)
+        emailText.applyTextChanges(state.email)
     }
 
     override fun provideViewIntents(): List<Observable<AccountView.Intent>> = listOf(
@@ -40,14 +40,16 @@ class AccountFragment :
 
     private fun typeFirstName(): Observable<AccountView.Intent> =
         firstNameText
-            .textChanges()
+            .throttleTextChanges()
             .map { AccountView.Intent.FirstNameChanged(it.toString()) }
 
     private fun typeLastName(): Observable<AccountView.Intent> =
         surnameText
-            .textChanges().map { AccountView.Intent.LastNameChanged(it.toString()) }
+            .throttleTextChanges()
+            .map { AccountView.Intent.LastNameChanged(it.toString()) }
 
     private fun typeEmail(): Observable<AccountView.Intent> =
         emailText
-            .textChanges().map { AccountView.Intent.EmailChanged(it.toString()) }
+            .throttleTextChanges()
+            .map { AccountView.Intent.EmailChanged(it.toString()) }
 }

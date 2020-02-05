@@ -22,6 +22,4 @@ class SecondPresenter
 
     override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out SecondViewState.PartialState> = Observable.never()
 
-    override fun providePresenterIntents(): Observable<out SecondViewState.PartialState> = Observable.never()
-
 }

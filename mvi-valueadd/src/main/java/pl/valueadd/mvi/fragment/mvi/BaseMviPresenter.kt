@@ -4,7 +4,6 @@ import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -78,29 +77,11 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         PublishSubject.create<VI>()
 
     /**
-     * Contains disposable subscription of streams.
+     * If view is attached the first time, the presenter subscribes its provided intents.
+     * Each time subscribes to view state's consumer and bind view's intents.
+     *
+     * This should be called on fragment's **start**.
      */
-    final override val disposables: CompositeDisposable
-            by lazy { CompositeDisposable() }
-
-    /**
-     * Add subscription to composite.
-     */
-    final override fun addDisposable(disposable: Disposable): Boolean =
-        disposables.add(disposable)
-
-    /**
-     * @see [Disposable.isDisposed]
-     */
-    final override fun isDisposed(): Boolean =
-        disposables.isDisposed
-
-    /**
-     * @see [Disposable.isDisposed]
-     */
-    final override fun dispose(): Unit =
-        disposables.dispose()
-
     @CallSuper
     override fun attachView(view: V) {
         this.internalView = view
@@ -116,6 +97,11 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         isViewAttachedFirstTime = false
     }
 
+    /**
+     * Dispose view's consumer subscription and view's intents.
+     *
+     * This should be called on fragment's **stop**.
+     */
     @CallSuper
     override fun detachView() {
         this.internalView = null
@@ -125,12 +111,31 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         disposeCurrentViewIntents()
     }
 
+    /**
+     * Dispose subscribed wrapped intents and current view's intents.
+     *
+     * Resets presenter state.
+     */
     @CallSuper
     override fun destroy() {
-        dispose()
         reset()
     }
 
+    /**
+     * Map view's intent actions to [provided presenter intents][BaseMviPresenter.providePresenterIntents].
+     *
+     * Example implementation:
+     *
+     * ```
+     *     override fun mapViewIntentToPartialState(viewIntent: SampleView.Intent): Observable<out SampleViewState.PartialState> =
+     *          when (viewIntent) {
+     *                  SampleView.Intent.DoSomething -> handleDoSomethingIntent()
+     *                  SampleView.Intent.DoMoreThanSomething -> handleDoMoreThanSomethingIntent()
+     *                  SampleView.Intent.ProcessSomething -> handleProcessSomethingIntent()
+     *          }
+     * ```
+     * @see BaseMviPresenter.providePresenterIntents
+     */
     protected abstract fun mapViewIntentToPartialState(viewIntent: VI): Observable<out PS>
 
     /**
@@ -146,14 +151,15 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * Example implementation:
      *
      * ```
-     * override fun providePresenterIntents(): List<Observable<out SampleView.PartialState>> = listOf(
-     *      createSampleIntent(),
-     *      createExampleIntent(),
-     *      createDummyIntent()
+     * override fun providePresenterIntents(): List<Observable<out SampleViewState.PartialState>> = listOf(
+     *      handleDoSomethingIntent(),
+     *      handleDoMoreThanSomethingIntent(),
+     *      handleProcessSomethingIntent()
      * )
      * ```
+     * @see BaseMviPresenter.mapViewIntentToPartialState
      */
-    protected open fun providePresenterIntents(): Observable<out PS> = Observable.empty()
+    protected open fun providePresenterIntents(): List<Observable<out PS>> = listOf()
 
     /**
      * Binds provided view's intents to wrapper subject.
@@ -193,7 +199,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         viewStateReducerDisposable =
             currentViewIntentsSubject
                 .flatMap(::mapViewIntentToPartialState)
-                .mergeWith(providePresenterIntents())
+                .mergeWith(Observable.merge(providePresenterIntents()))
                 .scan(currentState, this::reduce)
                 .distinctUntilChanged()
                 .doOnNext { currentState = it }
@@ -228,7 +234,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     }
 
     /**
-     * Dispose current view's intents.
+     * Dispose current view's intents subscription.
      */
     private fun disposeCurrentViewIntents() {
         currentViewIntentsDisposable?.let {

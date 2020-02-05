@@ -20,6 +20,13 @@ fun View.throttleClicks(interval: Long = 500L): Observable<Unit> =
         .throttleFirst(interval, TimeUnit.MILLISECONDS)
 
 /**
+ * Throttle text changes on view with given duration.
+ */
+fun View.throttleTextChanges(interval: Long = 50L): Observable<Unit> =
+    this.clicks()
+        .throttleFirst(interval, TimeUnit.MILLISECONDS)
+
+/**
  * Calls a given lambda on thread from which caller method has been invoked.
  */
 fun immediate(action: () -> Unit): Completable =

@@ -31,6 +31,11 @@ class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBas
         setupView()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        recyclerView.adapter = null
+    }
+
     override fun render(state: SecondViewState) {
         bindDataToList(state.list)
     }

@@ -4,6 +4,7 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.Menu
 import android.view.View
+import android.widget.EditText
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 
@@ -24,4 +25,11 @@ fun Menu.setTextColor(@IdRes idRes: Int, @ColorInt color: Int) {
 
 fun Menu.show(@IdRes idRes: Int) {
     this.findItem(idRes)?.isVisible = true
+}
+
+fun EditText.applyTextChanges(text: String) {
+    if (text != this.text.toString()) {
+        this.setText(text)
+        this.setSelection(this.length())
+    }
 }

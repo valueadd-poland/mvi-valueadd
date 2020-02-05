@@ -46,6 +46,7 @@ class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseVi
     }
 
     override fun render(state: ThirdViewState) {
+        // no-op
     }
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()

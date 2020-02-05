@@ -35,6 +35,10 @@ android {
         }
     }
 
+    lintOptions {
+        lintConfig file("$rootDir/scripts/lint-rules.xml")
+    }
+
 }
 
 // Dependencies configuration

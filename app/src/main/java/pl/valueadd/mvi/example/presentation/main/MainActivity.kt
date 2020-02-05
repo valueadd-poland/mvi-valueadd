@@ -13,7 +13,6 @@ class MainActivity : AbstractActivity() {
     }
 
     private fun loadRootFragment() {
-
         val fragment = findFragment(RootFragment::class.java)
 
         if (fragment == null) {

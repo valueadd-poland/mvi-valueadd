@@ -21,7 +21,7 @@ class ExampleItem(override var model: ExampleModel) :
 
     override var identifier: Long
         get() = model.id
-        set(_) = Unit
+        set(_) = Unit // has to be getter
 
     override fun getViewHolder(v: View): ExampleViewHolder =
         ExampleViewHolder(v)

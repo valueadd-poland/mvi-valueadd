@@ -71,18 +71,18 @@ class RootFragment :
         }
     }
 
-    override fun navigateToAccountView() {
+    override fun render(state: RootViewState) {
+        //no-op
+    }
+
+    override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()
+
+    private fun navigateToAccountView() {
 
         val fragment = AccountFragment.createInstance()
 
         start(fragment)
     }
-
-    override fun render(state: RootViewState) {
-        // TODO("not implemented")
-    }
-
-    override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()
 
     private fun navigateToSelectedFragment(item: MenuItem) {
         when (item.itemId) {

@@ -1,4 +1,4 @@
 package pl.valueadd.mvi.exception
 
-class ViewNotAttachedException :
+internal class ViewNotAttachedException :
     RuntimeException("View was called before that has been attached to presenter")

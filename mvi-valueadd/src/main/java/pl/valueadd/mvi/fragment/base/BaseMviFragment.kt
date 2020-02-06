@@ -15,13 +15,19 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     BaseFragment(layoutId),
     IBaseView<VS, VI> {
 
-    /* BaseView */
+    /* BaseMviFragment */
+
+    abstract var presenter: P
 
     /**
      * Returns disposable container of subscriptions.
      */
-    final override var disposables: CompositeDisposable =
+    protected var disposables: CompositeDisposable =
         CompositeDisposable()
+
+    private val viewStateKey = "ARG_STATE_VIEW_${UUID.randomUUID()}"
+
+    /* IBaseView */
 
     /**
      * @see [Disposable.isDisposed]
@@ -34,12 +40,6 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
      */
     final override fun dispose(): Unit =
         disposables.dispose()
-
-    /* BaseMviFragment */
-
-    abstract var presenter: P
-
-    private val viewStateKey = "ARG_STATE_VIEW_${UUID.randomUUID()}"
 
     /* Life cycle */
 
@@ -69,9 +69,6 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
         dispose()
     }
 
-    /**
-     *
-     */
     override fun onDestroy() {
         super.onDestroy()
         presenter.destroy()

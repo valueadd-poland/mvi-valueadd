@@ -5,9 +5,7 @@ import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
 import javax.inject.Inject
 
 class AccountPresenter @Inject constructor() :
-    BaseMviPresenter<AccountViewState, AccountViewState.PartialState, AccountView.Intent, AccountView>(
-        AccountViewState()
-    ) {
+    BaseMviPresenter<AccountViewState, AccountViewState.PartialState, AccountView.Intent, AccountView>() {
 
     override fun reduce(
         previousState: AccountViewState,

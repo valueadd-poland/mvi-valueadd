@@ -27,4 +27,8 @@ class AboutFragment :
     }
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()
+
+    override fun provideInitialViewState(): AboutViewState {
+        return restoredViewState ?: AboutViewState()
+    }
 }

@@ -9,11 +9,14 @@ import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
 import pl.valueadd.mvi.fragment.mvi.IBaseView
 import pl.valueadd.mvi.fragment.mvi.IBaseView.IBaseIntent
 import pl.valueadd.mvi.fragment.mvi.IBaseViewState
-import java.util.UUID
 
 abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
     BaseFragment(layoutId),
     IBaseView<VS, VI> {
+
+    companion object {
+        private const val VIEW_STATE_BUNDLE_KEY = "VIEW_STATE_BUNDLE_KEY"
+    }
 
     /* BaseMviFragment */
 
@@ -25,7 +28,11 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     protected var disposables: CompositeDisposable =
         CompositeDisposable()
 
-    private val viewStateKey = "ARG_STATE_VIEW_${UUID.randomUUID()}"
+    /*
+     * View state which can be restored after killing process by system.
+     */
+    protected var restoredViewState: VS? = null
+        private set
 
     /* IBaseView */
 
@@ -43,9 +50,9 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
 
     /* Life cycle */
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(viewStateKey, presenter.currentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.restoredViewState = savedInstanceState?.getParcelable(VIEW_STATE_BUNDLE_KEY)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,6 +69,11 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     override fun onStop() {
         super.onStop()
         presenter.detachView()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable(VIEW_STATE_BUNDLE_KEY, presenter.currentState)
     }
 
     override fun onDestroyView() {

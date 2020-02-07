@@ -10,14 +10,12 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import pl.valueadd.mvi.exception.ViewNotAttachedException
 
-abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>>(
-    initialState: VS
-) : IMviPresenter<V> {
+abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>> : IMviPresenter<V> {
 
     /**
      * Current view state.
      */
-    var currentState: VS = initialState
+    lateinit var currentState: VS
         private set
 
     /**
@@ -47,7 +45,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     /**
      * Use to determine when a intents have to be binded.
      */
-    private var isViewAttachedFirstTime = true
+    private var wasViewAttachedOnce = false
 
     /**
      * A disposable container of temporarily binded view intents.
@@ -67,14 +65,16 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     /**
      * A subject to pass emission of wrapped intents to currently binded view's consumer.
      */
-    private val viewStateBehaviorSubject =
+    private val viewStateBehaviorSubject by lazy {
         BehaviorSubject.createDefault(currentState)
+    }
 
     /**
      * A subject to wrap view's intents emission.
      */
     private val currentViewIntentsSubject =
         PublishSubject.create<VI>()
+
 
     /**
      * If view is attached the first time, the presenter subscribes its provided intents.
@@ -86,15 +86,14 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     override fun attachView(view: V) {
         this.internalView = view
 
-        if (isViewAttachedFirstTime) {
+        if (!wasViewAttachedOnce) {
+            currentState = view.provideInitialViewState()
             subscribeViewIntents()
+            wasViewAttachedOnce = true
         }
 
         subscribeViewStateConsumer()
-
         bindIntents(view)
-
-        isViewAttachedFirstTime = false
     }
 
     /**
@@ -220,7 +219,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
 
         disposeCurrentViewIntents()
 
-        isViewAttachedFirstTime = true
+        wasViewAttachedOnce = false
     }
 
     /**

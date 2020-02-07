@@ -6,9 +6,7 @@ import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
 class ThirdPresenter @Inject constructor() :
-    BaseMviPresenter<ThirdViewState, ThirdViewState.PartialState, IBaseView.IBaseIntent, ThirdView>(
-        ThirdViewState()
-    ) {
+    BaseMviPresenter<ThirdViewState, ThirdViewState.PartialState, IBaseView.IBaseIntent, ThirdView>() {
 
     override fun reduce(
         previousState: ThirdViewState,

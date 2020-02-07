@@ -50,4 +50,8 @@ class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseVi
     }
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()
+
+    override fun provideInitialViewState(): ThirdViewState {
+        return restoredViewState ?: ThirdViewState()
+    }
 }

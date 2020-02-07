@@ -39,6 +39,10 @@ class AccountFragment :
         destroyViewIntent
     )
 
+    override fun provideInitialViewState(): AccountViewState {
+        return restoredViewState ?: AccountViewState()
+    }
+
     private fun provideDestroyViewIntent(): AccountView.Intent =
         AccountView.Intent.OnDestroyView(
             firstNameText.text.toString(),

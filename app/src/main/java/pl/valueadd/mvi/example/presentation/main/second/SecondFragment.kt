@@ -42,6 +42,10 @@ class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBas
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()
 
+    override fun provideInitialViewState(): SecondViewState {
+        return restoredViewState ?: SecondViewState()
+    }
+
     private fun bindDataToList(list: List<IItem<*>>) {
         listAdapter.setNewList(list)
     }

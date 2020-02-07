@@ -14,8 +14,10 @@ data class AccountViewState(
     sealed class PartialState :
         IBasePartialState {
 
-        data class FirstNameChanged(val text: String) : PartialState()
-        data class LastNameChanged(val text: String) : PartialState()
-        data class EmailChanged(val text: String) : PartialState()
+        data class OnViewDestroyed(
+            var firstName: String = StringUtils.EMPTY,
+            var surname: String = StringUtils.EMPTY,
+            var email: String = StringUtils.EMPTY
+        ) : PartialState()
     }
 }

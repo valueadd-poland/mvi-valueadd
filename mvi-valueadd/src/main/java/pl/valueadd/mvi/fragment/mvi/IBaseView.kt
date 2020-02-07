@@ -1,12 +1,9 @@
 package pl.valueadd.mvi.fragment.mvi
 
 import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposable {
-
-    val disposables: CompositeDisposable
 
     fun render(state: VS)
 
@@ -22,7 +19,7 @@ interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposabl
      * ```
      * @see BaseMviPresenter.providePresenterIntents
      */
-    fun provideViewIntents(): List<Observable<VI>>
+    fun provideViewIntents(): List<Observable<out VI>>
 
     interface IBaseIntent
 }

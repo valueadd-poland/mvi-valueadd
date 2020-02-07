@@ -57,4 +57,11 @@ dependencies {
 
     // Utility
     implementation deps.utility.fragmentation
+
+    // Test dependencies
+    testImplementation deps.test.mockk
+    testImplementation deps.test.junit_api
+    testImplementation deps.test.junit_params
+    testImplementation deps.test.junit_engine
+
 }

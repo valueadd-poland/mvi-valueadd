@@ -9,10 +9,13 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import pl.valueadd.mvi.exception.ViewNotAttachedException
+import pl.valueadd.mvi.exception.ViewWasNotDetachedException
 
 abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>>(
     initialState: VS
 ) : IMviPresenter<V> {
+
+    //region Variables
 
     /**
      * Current view state.
@@ -36,8 +39,17 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * @see subscribeViewStateConsumer
      * @see viewStateConsumerDisposable
      */
-    protected open val viewStateSubscriptionScheduler: Scheduler =
+    protected open val viewStateSubscriptionScheduler: Scheduler by lazy {
         Schedulers.io()
+    }
+
+    /**
+     * @see subscribeViewStateConsumer
+     * @see viewStateConsumerDisposable
+     */
+    protected open val viewStateObservationScheduler: Scheduler by lazy {
+        AndroidSchedulers.mainThread()
+    }
 
     /**
      * Internal nullable [view][IBaseView] of presenter.
@@ -76,6 +88,10 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     private val currentViewIntentsSubject =
         PublishSubject.create<VI>()
 
+    //endregion
+
+    //region Lifecycle methods
+
     /**
      * If view is attached the first time, the presenter subscribes its provided intents.
      * Each time subscribes to view state's consumer and bind view's intents.
@@ -84,10 +100,13 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      */
     @CallSuper
     override fun attachView(view: V) {
-        this.internalView = view
+        if (this.internalView != null) {
+            throw ViewWasNotDetachedException()
+        }
 
+        this.internalView = view
         if (isViewAttachedFirstTime) {
-            subscribeViewIntents()
+            startObservingCurrentViewStateSubject()
         }
 
         subscribeViewStateConsumer()
@@ -114,12 +133,14 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     /**
      * Dispose subscribed wrapped intents and current view's intents.
      *
-     * Resets presenter state.
+     * This should be called on fragment's **destroy**.
      */
     @CallSuper
     override fun destroy() {
         reset()
     }
+
+    //endregion
 
     /**
      * Map view's intent actions to [provided presenter intents][BaseMviPresenter.providePresenterIntents].
@@ -185,7 +206,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     private fun subscribeViewStateConsumer() {
         viewStateConsumerDisposable = viewStateBehaviorSubject
             .subscribeOn(viewStateSubscriptionScheduler)
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(viewStateObservationScheduler)
             .subscribe(view::render)
     }
 
@@ -195,7 +216,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      *
      * This method should be called **once**. The best time to call it when view is attached for the first time.
      */
-    private fun subscribeViewIntents() {
+    private fun startObservingCurrentViewStateSubject() {
         viewStateReducerDisposable =
             currentViewIntentsSubject
                 .flatMap(::mapViewIntentToPartialState)

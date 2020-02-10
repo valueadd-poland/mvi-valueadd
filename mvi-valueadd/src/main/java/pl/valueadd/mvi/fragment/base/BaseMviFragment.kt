@@ -12,7 +12,7 @@ import pl.valueadd.mvi.fragment.mvi.IBaseView
 import pl.valueadd.mvi.fragment.mvi.IBaseView.IBaseIntent
 import pl.valueadd.mvi.fragment.mvi.IBaseViewState
 
-abstract class BaseMviFragment<V : IBaseView<VS, VI>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
+abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
     BaseFragment(layoutId),
     IBaseView<VS, VI> {
 

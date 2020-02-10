@@ -30,7 +30,7 @@ class BaseMviPresenterTest {
     private lateinit var presenterPublishSubject: PublishSubject<TestPartialState>
 
     @BeforeEach
-    private fun setup() {
+    private fun setUp() {
         presenterPublishSubject = PublishSubject.create<TestPartialState>()
         presenter = TestPresenter(mockMapper, mockReducer, presenterPublishSubject)
     }

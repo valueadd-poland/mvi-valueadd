@@ -1,11 +1,9 @@
 package pl.valueadd.mvi.example.presentation.main.account
 
-import kotlinx.android.parcel.Parcelize
 import org.apache.commons.lang3.StringUtils
 import pl.valueadd.mvi.fragment.mvi.IBasePartialState
 import pl.valueadd.mvi.fragment.mvi.IBaseViewState
 
-@Parcelize
 data class AccountViewState(
     var firstName: String = StringUtils.EMPTY,
     var surname: String = StringUtils.EMPTY,

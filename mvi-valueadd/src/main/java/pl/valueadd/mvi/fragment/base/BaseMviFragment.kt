@@ -5,11 +5,12 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegate
+import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegateImpl
 import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
 import pl.valueadd.mvi.fragment.mvi.IBaseView
 import pl.valueadd.mvi.fragment.mvi.IBaseView.IBaseIntent
 import pl.valueadd.mvi.fragment.mvi.IBaseViewState
-import java.util.UUID
 
 abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
     BaseFragment(layoutId),
@@ -25,7 +26,11 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     protected var disposables: CompositeDisposable =
         CompositeDisposable()
 
-    private val viewStateKey = "ARG_STATE_VIEW_${UUID.randomUUID()}"
+    private val mviDelegate: MviFragmentDelegate
+        by lazy {
+            @Suppress("UNCHECKED_CAST")
+            MviFragmentDelegateImpl(this as V, presenter)
+        }
 
     /* IBaseView */
 
@@ -43,25 +48,19 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
 
     /* Life cycle */
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable(viewStateKey, presenter.currentState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         disposables = CompositeDisposable()
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onStart() {
         super.onStart()
-        presenter.attachView(this as V)
+        mviDelegate.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        presenter.detachView()
+        mviDelegate.onStop()
     }
 
     override fun onDestroyView() {
@@ -71,6 +70,6 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
 
     override fun onDestroy() {
         super.onDestroy()
-        presenter.destroy()
+        mviDelegate.onDestroy()
     }
 }

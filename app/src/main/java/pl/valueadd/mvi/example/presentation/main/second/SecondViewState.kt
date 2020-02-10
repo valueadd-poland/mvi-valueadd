@@ -1,12 +1,10 @@
 package pl.valueadd.mvi.example.presentation.main.second
 
-import pl.valueadd.mvi.example.presentation.main.second.item.ExampleItem
-import kotlinx.android.parcel.Parcelize
 import org.apache.commons.lang3.StringUtils.EMPTY
+import pl.valueadd.mvi.example.presentation.main.second.item.ExampleItem
 import pl.valueadd.mvi.fragment.mvi.IBasePartialState
 import pl.valueadd.mvi.fragment.mvi.IBaseViewState
 
-@Parcelize
 data class SecondViewState(
     val list: List<ExampleItem> = emptyList(),
     val error: String = EMPTY

@@ -27,9 +27,12 @@ class BaseMviPresenterTest {
 
     private lateinit var presenter: TestPresenter
 
+    private lateinit var presenterPublishSubject: PublishSubject<TestPartialState>
+
     @BeforeEach
     private fun setup() {
-        presenter = TestPresenter(mockMapper, mockReducer)
+        presenterPublishSubject = PublishSubject.create<TestPartialState>()
+        presenter = TestPresenter(mockMapper, mockReducer, presenterPublishSubject)
     }
 
     @Test
@@ -83,6 +86,27 @@ class BaseMviPresenterTest {
         // Then
         verify(exactly = 1) { mockView.provideViewIntents() }
         assert(viewIntentsSubject.hasObservers() == false)
+    }
+
+    @Test
+    fun `Should not stop observing presenter intents after view detach`() {
+        // Given
+        val testPresenterPartialState = TestPartialState(1)
+        val expectedTestViewState = TestViewState(2)
+        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
+            every { provideViewIntents() } returns listOf()
+            every { render(any()) } answers {}
+        }
+        every { mockReducer.reduce(any(), testPresenterPartialState) } returns expectedTestViewState
+        presenter.attachView(mockView)
+
+        // When
+        presenter.detachView()
+        presenterPublishSubject.onNext(testPresenterPartialState)
+
+        // Then
+        assert(presenterPublishSubject.hasObservers())
+        assert(presenter.currentState == expectedTestViewState)
     }
 
     @Test
@@ -186,7 +210,7 @@ class BaseMviPresenterTest {
     }
 
     @Test
-    fun `Should stop processing pending view intents on destroy`() {
+    fun `Should stop processing pending view intents and presenter intents on destroy`() {
         // Given
         val testPartialStatePublishSubject = PublishSubject.create<TestPartialState>()
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
@@ -207,12 +231,14 @@ class BaseMviPresenterTest {
 
         // Then
         assert(testPartialStatePublishSubject.hasObservers() == false)
+        assert(presenterPublishSubject.hasObservers() == false)
     }
 }
 
 private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
-    private val reducer: TestReducer
+    private val reducer: TestReducer,
+    private val presenterObservable: Observable<TestPartialState>
 ) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>(
     TestViewState()
 ) {
@@ -227,6 +253,10 @@ private class TestPresenter(
     override fun reduce(previousState: TestViewState, action: TestPartialState): TestViewState {
         // For easier testing
         return reducer.reduce(previousState, action)
+    }
+
+    override fun providePresenterIntents(): List<Observable<out TestPartialState>> {
+        return listOf(presenterObservable)
     }
 }
 

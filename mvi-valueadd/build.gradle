@@ -22,6 +22,12 @@ android {
         consumerProguardFiles 'consumer-rules.pro'
     }
 
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
     buildTypes {
 
         debug {
@@ -57,4 +63,10 @@ dependencies {
 
     // Utility
     implementation deps.utility.fragmentation
+
+    // Test dependencies
+    testImplementation deps.test.mockk
+    testImplementation deps.test.junit_api
+    testImplementation deps.test.junit_params
+    testRuntimeOnly deps.test.junit_engine
 }

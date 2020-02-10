@@ -8,13 +8,11 @@ import io.mockk.verify
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.parcel.Parcelize
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import pl.valueadd.mvi.exception.ViewWasNotDetachedException
-import java.lang.RuntimeException
 
 @ExtendWith(MockKExtension::class)
 class BaseMviPresenterTest {
@@ -244,7 +242,6 @@ private class TestPresenter(
     }
 }
 
-@Parcelize
 private class TestViewState(var someProperty: Int = 0) : IBaseViewState
 
 private class TestPartialState(var someProperty: Int) : IBasePartialState

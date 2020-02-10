@@ -24,6 +24,8 @@ class FirstFragment :
     @Inject
     override lateinit var presenter: FirstPresenter
 
+    override val shouldSaveViewStateInSavedInstanceState = true
+
     private val buttonDelay
         by lazy { resources.getInteger(R.integer.button_delay_100).toLong() }
 

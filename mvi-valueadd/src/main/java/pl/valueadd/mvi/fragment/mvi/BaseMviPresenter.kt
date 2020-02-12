@@ -22,7 +22,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         private set
 
     /**
-     * Cold observable of [view state][IBaseViewState].
+     * Hot observable of [view state][IBaseViewState].
      */
     val stateObservable: Observable<VS>
         get() = viewStateBehaviorSubject

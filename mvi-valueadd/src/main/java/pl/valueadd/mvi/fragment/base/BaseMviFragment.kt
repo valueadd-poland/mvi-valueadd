@@ -26,22 +26,9 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     protected var disposables: CompositeDisposable =
         CompositeDisposable()
 
-    /*
-    * View state which can be restored after killing process by system.
-    */
-    protected val restoredViewState: VS?
-        get() = mviDelegate.restoredViewState
-
-    protected open val shouldSaveViewStateInSavedInstanceState = false
-
-    private val mviDelegate: MviFragmentDelegate<VS>
-        by lazy {
-            @Suppress("UNCHECKED_CAST")
-            MviFragmentDelegateImpl(
-                shouldSaveViewStateInSavedInstanceState,
-                this as V,
-                presenter)
-        }
+    @Suppress("UNCHECKED_CAST")
+    protected open val mviDelegate: MviFragmentDelegate
+            by lazy { MviFragmentDelegateImpl(this as V, presenter) }
 
     /* IBaseView */
 

@@ -3,25 +3,23 @@ package pl.valueadd.mvi.fragment.delegate.fragment
 import android.os.Bundle
 import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
 import pl.valueadd.mvi.fragment.mvi.IBaseView
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
 
-class MviFragmentDelegateImpl<V : IBaseView<VS, *>, VS : IBaseViewState>(
-    private val shouldHandleSaveInstanceState: Boolean,
-    private val fragment: V,
-    private val presenter: BaseMviPresenter<VS, *, *, V>
-) : MviFragmentDelegate<VS> {
-
-    companion object {
-        private const val VIEW_STATE_BUNDLE_KEY = "VIEW_STATE_BUNDLE_KEY"
-    }
-
-    override var restoredViewState: VS? = null
-        private set
+/**
+ * Minimal implementation of contract between fragment and presenter.
+ *
+ * This API requires call every fragment's lifecycle callback event defined at [MviFragmentDelegate].
+ */
+open class MviFragmentDelegateImpl<V : IBaseView<*, *>>(
+    protected val fragment: V,
+    protected val presenter: BaseMviPresenter<*, *, *, V>
+) : MviFragmentDelegate {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (shouldHandleSaveInstanceState) {
-            this.restoredViewState = savedInstanceState?.getParcelable(VIEW_STATE_BUNDLE_KEY)
-        }
+        // no-op
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        // no-op
     }
 
     override fun onStart() {
@@ -30,12 +28,6 @@ class MviFragmentDelegateImpl<V : IBaseView<VS, *>, VS : IBaseViewState>(
 
     override fun onStop() {
         presenter.detachView()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        if (shouldHandleSaveInstanceState) {
-            outState.putParcelable(VIEW_STATE_BUNDLE_KEY, presenter.currentState)
-        }
     }
 
     override fun onDestroy() {

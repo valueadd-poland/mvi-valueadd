@@ -46,7 +46,7 @@ android {
 dependencies {
 
     // Implement base library
-    implementation project(':mvi-valueadd')
+    implementation project(':mvi')
 
     // Annotation Processor
     kapt deps.di.toothpick_compiler
@@ -82,4 +82,5 @@ dependencies {
     implementation deps.androidx.material
     implementation deps.androidx.multidex
     implementation deps.androidx.annotation
+    implementation "androidx.lifecycle:lifecycle-common:2.2.0"
 }

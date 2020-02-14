@@ -63,6 +63,9 @@ versions.fragmentation = "1.0.1"
 versions.material_progress_bar = "1.6.1"
 versions.fast_adapter = "4.0.1"
 versions.mockk = "1.9.3"
+versions.junit5_runner = "1.3.2.0"
+versions.android_maven = "1.4.1"
+versions.bintray = "1.7.3"
 deps.versions = versions
 ext.versions = versions
 
@@ -75,6 +78,9 @@ build.fabric = "io.fabric.tools:gradle:$versions.fabric"
 build.google_services_plugin = "com.google.gms:google-services:$versions.google_plugin"
 build.kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 build.realm_gradle_plugin = "io.realm:realm-gradle-plugin:$versions.realm"
+build.junit5_runner = "de.mannodermaus.gradle.plugins:android-junit5:$versions.junit5_runner"
+build.android_maven = "com.github.dcendents:android-maven-gradle-plugin:$versions.android_maven"
+build.bintray =  "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintray"
 deps.build = build
 
 /**

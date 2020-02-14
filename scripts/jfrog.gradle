@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/valueadd-poland/mvi-valueadd'
     gitUrl = 'https://github.com/valueadd-poland/mvi-valueadd.git'
 
-    libraryVersion = '0.1'
+    libraryVersion = '0.2'
 
     developerId = 'valueadd-poland'
     developerName = 'Valueadd'

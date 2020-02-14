@@ -46,7 +46,7 @@ android {
 dependencies {
 
     // Implement base library
-    implementation project(':mvi-valueadd')
+    implementation project(':mvi')
 
     // Annotation Processor
     kapt deps.di.toothpick_compiler

@@ -1,4 +1,4 @@
-include ':app', ':mvi-valueadd'
+include ':app', ':mvi'
 
 rootProject.name='MVI-ValueAdd'
 

@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply from: "$rootDir/scripts/versioning.gradle"
 apply from: "$rootDir/scripts/jfrog.gradle"
 
 
@@ -18,8 +19,8 @@ android {
     defaultConfig {
         minSdkVersion deps.build_version.min_sdk
         targetSdkVersion deps.build_version.target_sdk
-        versionCode 1
-        versionName "1.0"
+        versionName libraryVersionName
+        versionCode libraryVersionCode
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }

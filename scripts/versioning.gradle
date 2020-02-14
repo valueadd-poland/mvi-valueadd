@@ -1,0 +1,14 @@
+// Library version variable
+def libraryVersionName = '1.0.0'
+
+// Set project library version name
+rootProject.ext.libraryVersionName = libraryVersionName
+println "libraryVersionName = $libraryVersionName"
+
+// Generate library version code
+def (major, minor, patch) = (libraryVersionName != null) ? libraryVersionName.tokenize('.') : [0, 0, 1]
+def libraryVersionCode = major.toInteger() * 1_000_000 + minor.toInteger() * 1_000 + patch.toInteger()
+
+// Set project library version code
+rootProject.ext.libraryVersionCode = libraryVersionCode
+println "libraryVersionCode = $libraryVersionCode ($major.$minor.$patch)"

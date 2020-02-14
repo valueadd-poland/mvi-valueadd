@@ -14,8 +14,6 @@ ext {
     siteUrl = 'https://github.com/valueadd-poland/mvi-valueadd'
     gitUrl = 'https://github.com/valueadd-poland/mvi-valueadd.git'
 
-    libraryVersion = '0.2'
-
     developerId = 'valueadd-poland'
     developerName = 'Valueadd'
     developerEmail = 'contact@valueadd.pl'
@@ -26,7 +24,7 @@ ext {
 }
 
 group = publishedGroupId
-version = libraryVersion
+version = libraryVersionName
 
 install {
     repositories.mavenInstaller {
@@ -60,8 +58,6 @@ install {
         }
     }
 }
-
-
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())

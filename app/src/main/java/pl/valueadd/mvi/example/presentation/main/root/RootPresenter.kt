@@ -6,9 +6,7 @@ import pl.valueadd.mvi.fragment.mvi.IBaseView
 import javax.inject.Inject
 
 class RootPresenter
-@Inject constructor() : BaseMviPresenter<RootViewState, RootViewState.PartialState, IBaseView.IBaseIntent, RootView>(
-    RootViewState()
-) {
+@Inject constructor() : BaseMviPresenter<RootViewState, RootViewState.PartialState, IBaseView.IBaseIntent, RootView>() {
 
     override fun mapViewIntentToPartialState(viewIntent: IBaseView.IBaseIntent): Observable<out RootViewState.PartialState> =
         Observable.never()

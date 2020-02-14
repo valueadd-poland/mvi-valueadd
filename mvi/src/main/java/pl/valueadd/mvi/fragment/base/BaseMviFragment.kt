@@ -26,11 +26,9 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     protected var disposables: CompositeDisposable =
         CompositeDisposable()
 
-    private val mviDelegate: MviFragmentDelegate
-        by lazy {
-            @Suppress("UNCHECKED_CAST")
-            MviFragmentDelegateImpl(this as V, presenter)
-        }
+    @Suppress("UNCHECKED_CAST")
+    protected open val mviDelegate: MviFragmentDelegate
+            by lazy { MviFragmentDelegateImpl(this as V, presenter) }
 
     /* IBaseView */
 
@@ -48,6 +46,11 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
 
     /* Life cycle */
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mviDelegate.onCreate(savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         disposables = CompositeDisposable()
@@ -61,6 +64,11 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
     override fun onStop() {
         super.onStop()
         mviDelegate.onStop()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mviDelegate.onSaveInstanceState(outState)
     }
 
     override fun onDestroyView() {

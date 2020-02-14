@@ -77,6 +77,10 @@ class RootFragment :
 
     override fun provideViewIntents(): List<Observable<IBaseView.IBaseIntent>> = listOf()
 
+    override fun provideInitialViewState(): RootViewState {
+        return restoredViewState ?: RootViewState()
+    }
+
     private fun navigateToAccountView() {
 
         val fragment = AccountFragment.createInstance()

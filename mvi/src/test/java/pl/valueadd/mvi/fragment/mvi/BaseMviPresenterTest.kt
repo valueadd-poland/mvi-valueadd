@@ -8,6 +8,7 @@ import io.mockk.verify
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.parcel.Parcelize
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -36,10 +37,7 @@ class BaseMviPresenterTest {
     @Test
     fun `Should throw exception when old view was not detached before attaching new one`() {
         // Given
-        val firstView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns emptyList()
-            every { render(any()) } answers {}
-        }
+        val firstView = createMockView(Observable.never())
         val secondView: IBaseView<TestViewState, TestViewIntent> = mockk()
 
         presenter.attachView(firstView)
@@ -55,10 +53,7 @@ class BaseMviPresenterTest {
     fun `Should start observing view intent on view attach`() {
         // Given
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
 
         // When
         presenter.attachView(mockView)
@@ -72,10 +67,7 @@ class BaseMviPresenterTest {
     fun `Should stop observing view intent on view detach`() {
         // Given
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
         presenter.attachView(mockView)
 
         // When
@@ -91,10 +83,8 @@ class BaseMviPresenterTest {
         // Given
         val testPresenterPartialState = TestPartialState(1)
         val expectedTestViewState = TestViewState(2)
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf()
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(Observable.never())
+
         every { mockReducer.reduce(any(), testPresenterPartialState) } returns expectedTestViewState
         presenter.attachView(mockView)
 
@@ -114,10 +104,8 @@ class BaseMviPresenterTest {
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
         val testViewIntent = TestViewIntent()
         val testPartialState = TestPartialState(1)
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
+
         val reducedViewState = TestViewState(1)
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
@@ -138,11 +126,9 @@ class BaseMviPresenterTest {
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
         val testViewIntent = TestViewIntent()
         val testPartialState = TestPartialState(0)
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
         val reducedViewState = TestViewState()
+
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
         presenter.attachView(mockView)
@@ -164,10 +150,7 @@ class BaseMviPresenterTest {
         val testViewIntent = TestViewIntent()
         val testPartialState = TestPartialState(1)
         val reducedViewState = TestViewState(1)
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
         presenter.attachView(mockView)
@@ -191,10 +174,8 @@ class BaseMviPresenterTest {
         val testViewIntent = TestViewIntent()
         val testPartialState = TestPartialState(1)
         val reducedViewState = TestViewState(1)
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
+
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
         presenter.attachView(mockView)
@@ -215,10 +196,8 @@ class BaseMviPresenterTest {
         val testViewIntent = TestViewIntent()
         val testPartialState = TestPartialState(1)
         val reducedViewState = TestViewState(1)
-        val mockView: IBaseView<TestViewState, TestViewIntent> = mockk {
-            every { provideViewIntents() } returns listOf(viewIntentsSubject)
-            every { render(any()) } answers {}
-        }
+        val mockView = createMockView(viewIntentsSubject)
+
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
         presenter.attachView(mockView)
@@ -231,15 +210,21 @@ class BaseMviPresenterTest {
         assert(testPartialStatePublishSubject.hasObservers() == false)
         assert(presenterPublishSubject.hasObservers() == false)
     }
+
+    private fun createMockView(viewIntentsObservable: Observable<TestViewIntent>): IBaseView<TestViewState, TestViewIntent> {
+        return mockk {
+            every { provideViewIntents() } returns listOf(viewIntentsObservable)
+            every { render(any()) } answers {}
+            every { provideInitialViewState() } returns TestViewState()
+        }
+    }
 }
 
 private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
     private val reducer: TestReducer,
     private val presenterObservable: Observable<TestPartialState>
-) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>(
-    TestViewState()
-) {
+) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>() {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
 
@@ -258,6 +243,7 @@ private class TestPresenter(
     }
 }
 
+@Parcelize
 private class TestViewState(var someProperty: Int = 0) : IBaseViewState
 
 private class TestPartialState(var someProperty: Int) : IBasePartialState

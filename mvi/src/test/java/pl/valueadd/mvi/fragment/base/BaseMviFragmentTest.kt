@@ -5,6 +5,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.parcel.Parcelize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import pl.valueadd.mvi.activity.BaseActivity
@@ -77,14 +78,14 @@ private class TestMviFragment :
     override fun provideViewIntents(): List<Observable<TestViewIntent>> {
         return emptyList()
     }
+
+    override fun provideInitialViewState() = TestViewState()
 }
 
 private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
     private val reducer: TestReducer
-) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestView>(
-    TestViewState()
-) {
+) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestView>() {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
 
@@ -101,6 +102,7 @@ private class TestPresenter(
 
 private interface TestView : IBaseView<TestViewState, TestViewIntent>
 
+@Parcelize
 private class TestViewState(var someProperty: Int = 0) : IBaseViewState
 
 private class TestPartialState(var someProperty: Int) : IBasePartialState

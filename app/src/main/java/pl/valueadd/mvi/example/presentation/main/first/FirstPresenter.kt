@@ -8,9 +8,7 @@ import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FirstPresenter @Inject constructor() : BaseMviPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>(
-    FirstViewState()
-) {
+class FirstPresenter @Inject constructor() : BaseMviPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>() {
     companion object {
         private const val PROCESING_DELAY = 5L
     }

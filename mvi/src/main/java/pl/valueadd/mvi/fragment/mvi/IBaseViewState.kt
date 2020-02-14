@@ -1,3 +1,5 @@
 package pl.valueadd.mvi.fragment.mvi
 
-interface IBaseViewState
+import android.os.Parcelable
+
+interface IBaseViewState : Parcelable

@@ -21,5 +21,7 @@ interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposabl
      */
     fun provideViewIntents(): List<Observable<out VI>>
 
+    fun provideInitialViewState(): VS
+
     interface IBaseIntent
 }

@@ -11,20 +11,18 @@ import io.reactivex.subjects.PublishSubject
 import pl.valueadd.mvi.exception.ViewNotAttachedException
 import pl.valueadd.mvi.exception.ViewWasNotDetachedException
 
-abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>>(
-    initialState: VS
-) : IMviPresenter<V> {
+abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>> : IMviPresenter<V> {
 
     //region Variables
 
     /**
      * Current view state.
      */
-    var currentState: VS = initialState
+    lateinit var currentState: VS
         private set
 
     /**
-     * Cold observable of [view state][IBaseViewState].
+     * Hot observable of [view state][IBaseViewState].
      */
     val stateObservable: Observable<VS>
         get() = viewStateBehaviorSubject
@@ -59,7 +57,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     /**
      * Use to determine when a intents have to be binded.
      */
-    private var isViewAttachedFirstTime = true
+    private var wasViewAttachedOnce = false
 
     /**
      * A disposable container of temporarily binded view intents.
@@ -79,8 +77,9 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     /**
      * A subject to pass emission of wrapped intents to currently binded view's consumer.
      */
-    private val viewStateBehaviorSubject =
+    private val viewStateBehaviorSubject by lazy {
         BehaviorSubject.createDefault(currentState)
+    }
 
     /**
      * A subject to wrap view's intents emission.
@@ -97,6 +96,8 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * Each time subscribes to view state's consumer and bind view's intents.
      *
      * This should be called on fragment's **start**.
+     *
+     * @throws ViewWasNotDetachedException if previous view was not detached
      */
     @CallSuper
     override fun attachView(view: V) {
@@ -105,15 +106,15 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         }
 
         this.internalView = view
-        if (isViewAttachedFirstTime) {
+
+        if (!wasViewAttachedOnce) {
+            currentState = view.provideInitialViewState()
             startObservingCurrentViewStateSubject()
+            wasViewAttachedOnce = true
         }
 
         subscribeViewStateConsumer()
-
         bindIntents(view)
-
-        isViewAttachedFirstTime = false
     }
 
     /**
@@ -241,7 +242,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
 
         disposeCurrentViewIntents()
 
-        isViewAttachedFirstTime = true
+        wasViewAttachedOnce = false
     }
 
     /**

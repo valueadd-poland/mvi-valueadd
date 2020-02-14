@@ -32,6 +32,10 @@ class FirstFragment :
         initializeListeners()
     }
 
+    override fun provideInitialViewState(): FirstViewState {
+        return restoredViewState ?: FirstViewState()
+    }
+
     override fun navigateToAboutView() {
         val fragment = AboutFragment.createInstance()
 

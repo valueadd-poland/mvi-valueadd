@@ -1,16 +1,17 @@
 package pl.valueadd.mvi.example.presentation.base
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.annotation.LayoutRes
 import pl.valueadd.mvi.example.utility.dependencyinjection.DependencyUtil
 import pl.valueadd.mvi.fragment.back.BackMviFragment
 import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentSaveInstanceStateDelegateImpl
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.BaseMviPresenter
+import pl.valueadd.mvi.presenter.IBaseView
+import pl.valueadd.mvi.presenter.IBaseViewState
 
-abstract class AbstractBackMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseView.IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
-    BackMviFragment<V, VS, VI, P>(layoutId) {
+abstract class AbstractBackMviFragment<V : IBaseView<VS, *>, VS, VI : IBaseView.IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
+    BackMviFragment<V, VS, VI, P>(layoutId) where VS : IBaseViewState, VS : Parcelable {
 
     protected val restoredViewState: VS?
         get() = mviDelegate.restoredViewState

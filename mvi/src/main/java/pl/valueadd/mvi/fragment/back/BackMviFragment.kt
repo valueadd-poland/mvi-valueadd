@@ -9,10 +9,10 @@ import kotlinx.android.synthetic.main.base_toolbar.*
 import pl.valueadd.mvi.fragment.back.delegation.BackFragmentDelegate
 import pl.valueadd.mvi.fragment.back.delegation.BackFragmentDelegateImpl
 import pl.valueadd.mvi.fragment.base.BaseMviFragment
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
-import pl.valueadd.mvi.fragment.mvi.IBaseView.IBaseIntent
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.BaseMviPresenter
+import pl.valueadd.mvi.presenter.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView.IBaseIntent
+import pl.valueadd.mvi.presenter.IBaseViewState
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 
 abstract class BackMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :

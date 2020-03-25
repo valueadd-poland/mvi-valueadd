@@ -1,12 +1,13 @@
 package pl.valueadd.mvi.example.presentation.main.third
 
+import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import pl.valueadd.mvi.fragment.mvi.IBasePartialState
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.IBasePartialState
+import pl.valueadd.mvi.presenter.IBaseViewState
 
 @Parcelize
 class ThirdViewState :
-    IBaseViewState {
+    IBaseViewState, Parcelable {
 
     sealed class PartialState :
         IBasePartialState

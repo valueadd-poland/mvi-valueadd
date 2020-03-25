@@ -1,5 +1,6 @@
 package pl.valueadd.mvi.fragment.base
 
+import android.os.Parcelable
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -9,10 +10,10 @@ import kotlinx.android.parcel.Parcelize
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import pl.valueadd.mvi.activity.BaseActivity
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBasePartialState
-import pl.valueadd.mvi.fragment.mvi.IBaseView
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.BaseMviPresenter
+import pl.valueadd.mvi.presenter.IBasePartialState
+import pl.valueadd.mvi.presenter.IBaseView
+import pl.valueadd.mvi.presenter.IBaseViewState
 
 class BaseMviFragmentTest {
 
@@ -85,7 +86,7 @@ private class TestMviFragment :
 private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
     private val reducer: TestReducer
-) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestView>() {
+) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestView>(Schedulers.trampoline()) {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
 
@@ -100,12 +101,15 @@ private class TestPresenter(
     }
 }
 
-private interface TestView : IBaseView<TestViewState, TestViewIntent>
+private interface TestView :
+    IBaseView<TestViewState, TestViewIntent>
 
 @Parcelize
-private class TestViewState(var someProperty: Int = 0) : IBaseViewState
+private class TestViewState(var someProperty: Int = 0) :
+    IBaseViewState, Parcelable
 
-private class TestPartialState(var someProperty: Int) : IBasePartialState
+private class TestPartialState(var someProperty: Int) :
+    IBasePartialState
 
 private class TestViewIntent : IBaseView.IBaseIntent
 

@@ -16,7 +16,9 @@ buildscript {
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.0"
+    id 'io.gitlab.arturbosch.detekt' version "1.0.0"
+    id 'com.jfrog.bintray' version "1.8.4" apply false
+    id 'maven-publish'
 }
 
 /**
@@ -32,9 +34,24 @@ allprojects {
     apply from: "$rootDir/scripts/pmd.gradle"
 }
 
-/**
- * Clean task
- */
-task clean(type: Delete) {
-    delete rootProject.buildDir
+subprojects { Project project ->
+    if (project.name.startsWith('mvi')) {
+        apply plugin: 'com.jfrog.bintray'
+        apply plugin: 'maven-publish'
+
+        project.afterEvaluate {
+            publishing {
+                repositories {
+                    maven {
+                        def releasesRepoUrl = "https://dl.bintray.com/valueadd-poland/maven"
+                        def snapshotsRepoUrl = "https://dl.bintray.com/valueadd-poland/snapshots"
+                        url = islibraryVersionSnapshot
+                                ? snapshotsRepoUrl
+                                : releasesRepoUrl
+                        println("Repository url is $url")
+                    }
+                }
+            }
+        }
+    }
 }

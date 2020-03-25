@@ -1,11 +1,11 @@
 package pl.valueadd.mvi.example.presentation.main.account
 
 import io.reactivex.Observable
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
+import pl.valueadd.mvi.example.presentation.base.AbstractPresenter
 import javax.inject.Inject
 
 class AccountPresenter @Inject constructor() :
-    BaseMviPresenter<AccountViewState, AccountViewState.PartialState, AccountView.Intent, AccountView>() {
+    AbstractPresenter<AccountViewState, AccountViewState.PartialState, AccountView.Intent, AccountView>() {
 
     override fun reduce(
         previousState: AccountViewState,

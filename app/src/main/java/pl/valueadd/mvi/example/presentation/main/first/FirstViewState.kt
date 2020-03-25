@@ -1,17 +1,18 @@
 package pl.valueadd.mvi.example.presentation.main.first
 
+import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import org.apache.commons.lang3.StringUtils.EMPTY
 import org.apache.commons.lang3.math.NumberUtils.INTEGER_ZERO
-import pl.valueadd.mvi.fragment.mvi.IBasePartialState
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.IBasePartialState
+import pl.valueadd.mvi.presenter.IBaseViewState
 
 @Parcelize
 data class FirstViewState(
     val count: Int = INTEGER_ZERO,
     val error: String = EMPTY,
     val value: String = EMPTY
-) : IBaseViewState {
+) : IBaseViewState, Parcelable {
 
     sealed class PartialState :
         IBasePartialState {

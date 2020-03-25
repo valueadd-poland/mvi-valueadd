@@ -1,12 +1,12 @@
 package pl.valueadd.mvi.example.presentation.main.third
 
 import io.reactivex.Observable
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.example.presentation.base.AbstractPresenter
+import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class ThirdPresenter @Inject constructor() :
-    BaseMviPresenter<ThirdViewState, ThirdViewState.PartialState, IBaseView.IBaseIntent, ThirdView>() {
+    AbstractPresenter<ThirdViewState, ThirdViewState.PartialState, IBaseView.IBaseIntent, ThirdView>() {
 
     override fun reduce(
         previousState: ThirdViewState,

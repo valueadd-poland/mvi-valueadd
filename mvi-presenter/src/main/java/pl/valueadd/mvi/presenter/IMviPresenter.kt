@@ -1,4 +1,4 @@
-package pl.valueadd.mvi.fragment.mvi
+package pl.valueadd.mvi.presenter
 
 interface IMviPresenter<V : IBaseView<*, *>> {
 

@@ -1,8 +1,8 @@
 package pl.valueadd.mvi.fragment.delegate.fragment
 
 import android.os.Bundle
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.presenter.BaseMviPresenter
+import pl.valueadd.mvi.presenter.IBaseView
 
 /**
  * Minimal implementation of contract between fragment and presenter.

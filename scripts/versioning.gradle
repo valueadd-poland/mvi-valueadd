@@ -1,14 +1,19 @@
-// Library version variable
-def libraryVersionName = '1.0.0'
+// Library version definition
+def isSnapshot = false
+def (major, minor, patch) = [2,0,0]
+def libraryVersionTag = isSnapshot ? 'SNAPSHOT' : ''
 
-// Set project library version name
-rootProject.ext.libraryVersionName = libraryVersionName
-println "libraryVersionName = $libraryVersionName"
+// Define project library version name
+def libraryVersionName = "$major.$minor.$patch"
+def libraryVersionNameWithTag = isSnapshot ? "$libraryVersionName-$libraryVersionTag" : libraryVersionName
 
 // Generate library version code
-def (major, minor, patch) = (libraryVersionName != null) ? libraryVersionName.tokenize('.') : [0, 0, 1]
 def libraryVersionCode = major.toInteger() * 1_000_000 + minor.toInteger() * 1_000 + patch.toInteger()
 
-// Set project library version code
-rootProject.ext.libraryVersionCode = libraryVersionCode
-println "libraryVersionCode = $libraryVersionCode ($major.$minor.$patch)"
+// Set project extra properties
+ext.islibraryVersionSnapshot = isSnapshot
+ext.libraryVersionTag = libraryVersionTag
+ext.libraryVersionNameWithTag = libraryVersionNameWithTag
+ext.libraryVersionName = libraryVersionName
+ext.libraryVersionCode = libraryVersionCode
+println "Version of ${project.name} is $libraryVersionNameWithTag ($libraryVersionCode)"

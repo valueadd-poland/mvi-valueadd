@@ -1,9 +1,7 @@
-package pl.valueadd.mvi.fragment.mvi
+package pl.valueadd.mvi.presenter
 
-import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
@@ -11,7 +9,9 @@ import io.reactivex.subjects.PublishSubject
 import pl.valueadd.mvi.exception.ViewNotAttachedException
 import pl.valueadd.mvi.exception.ViewWasNotDetachedException
 
-abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>> : IMviPresenter<V> {
+abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>>(
+    mainThread: Scheduler
+) : IMviPresenter<V> {
 
     //region Variables
 
@@ -45,9 +45,8 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * @see subscribeViewStateConsumer
      * @see viewStateConsumerDisposable
      */
-    protected open val viewStateObservationScheduler: Scheduler by lazy {
-        AndroidSchedulers.mainThread()
-    }
+    protected open val viewStateObservationScheduler: Scheduler =
+        mainThread
 
     /**
      * Internal nullable [view][IBaseView] of presenter.
@@ -99,7 +98,6 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      *
      * @throws ViewWasNotDetachedException if previous view was not detached
      */
-    @CallSuper
     override fun attachView(view: V) {
         if (this.internalView != null) {
             throw ViewWasNotDetachedException()
@@ -122,7 +120,6 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      *
      * This should be called on fragment's **stop**.
      */
-    @CallSuper
     override fun detachView() {
         this.internalView = null
 
@@ -136,7 +133,6 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      *
      * This should be called on fragment's **destroy**.
      */
-    @CallSuper
     override fun destroy() {
         reset()
     }

@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

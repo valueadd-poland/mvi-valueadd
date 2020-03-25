@@ -18,7 +18,7 @@ import pl.valueadd.mvi.example.presentation.main.second.SecondFragment
 import pl.valueadd.mvi.example.presentation.main.third.ThirdFragment
 import pl.valueadd.mvi.example.utility.extension.show
 import pl.valueadd.mvi.fragment.base.IBaseFragment
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class RootFragment :

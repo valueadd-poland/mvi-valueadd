@@ -1,9 +1,10 @@
 package pl.valueadd.mvi.fragment.delegate.fragment
 
 import android.os.Bundle
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import android.os.Parcelable
+import pl.valueadd.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.BaseMviPresenter
+import pl.valueadd.mvi.presenter.IBaseView
 
 /**
  * Extended [implementation][MviFragmentDelegateImpl] of fragment's MVI which handles
@@ -32,7 +33,7 @@ class MviFragmentSaveInstanceStateDelegateImpl<V : IBaseView<VS, *>, VS : IBaseV
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putParcelable(
             VIEW_STATE_BUNDLE_KEY,
-            presenter.currentState
+            presenter.currentState as Parcelable
         )
     }
 }

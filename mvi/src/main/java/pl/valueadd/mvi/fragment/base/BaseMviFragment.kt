@@ -5,12 +5,12 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import pl.valueadd.mvi.presenter.BaseMviPresenter
+import pl.valueadd.mvi.presenter.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView.IBaseIntent
 import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegate
 import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegateImpl
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
-import pl.valueadd.mvi.fragment.mvi.IBaseView.IBaseIntent
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.IBaseViewState
 
 abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
     BaseFragment(layoutId),

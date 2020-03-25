@@ -1,6 +1,6 @@
 package pl.valueadd.mvi.example.presentation.main.first
 
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView
 
 interface FirstView :
     IBaseView<FirstViewState, FirstView.Intent> {

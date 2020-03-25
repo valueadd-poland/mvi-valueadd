@@ -1,0 +1,28 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply from: 'publish.gradle'
+
+// Java library configuration
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Dependencies configuration
+dependencies {
+    // Application files
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+
+    // Kotlin
+    implementation deps.kotlin.stdlib_jdk8
+
+    // Reactivex
+    implementation deps.rx.java
+    implementation deps.rx.kotlin
+
+    // Test dependencies
+    testImplementation deps.test.mockk
+    testImplementation deps.test.junit_api
+    testImplementation deps.test.junit_params
+    testRuntimeOnly deps.test.junit_engine
+}

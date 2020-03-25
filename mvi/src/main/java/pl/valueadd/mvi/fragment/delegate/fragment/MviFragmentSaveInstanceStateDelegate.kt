@@ -1,6 +1,6 @@
 package pl.valueadd.mvi.fragment.delegate.fragment
 
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.IBaseViewState
 
 interface MviFragmentSaveInstanceStateDelegate<VS : IBaseViewState> {
 

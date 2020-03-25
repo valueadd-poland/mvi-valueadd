@@ -10,7 +10,7 @@ import pl.valueadd.mvi.example.presentation.main.about.AboutFragment
 import pl.valueadd.mvi.example.presentation.main.root.RootFragment
 import pl.valueadd.mvi.example.utility.extension.onSuccess
 import pl.valueadd.mvi.example.utility.extension.throttleClicks
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, ThirdPresenter>(

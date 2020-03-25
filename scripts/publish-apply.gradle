@@ -1,13 +1,8 @@
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply from: "$rootDir/scripts/versioning.gradle"
 
 ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'mvi'
-
     publishedGroupId = 'pl.valueadd'
     libraryName = 'MVI-Valueadd'
-    artifact = 'mvi'
 
     libraryDescription = 'This library contains architecture for mvi.'
 
@@ -26,39 +21,6 @@ ext {
 group = publishedGroupId
 version = libraryVersionName
 
-install {
-    repositories.mavenInstaller {
-        pom.project {
-            packaging 'aar'
-            groupId publishedGroupId
-            artifactId artifact
-
-            name libraryName
-            description libraryDescription
-            url siteUrl
-
-            licenses {
-                license {
-                    name licenseName
-                    url licenseUrl
-                }
-            }
-            developers {
-                developer {
-                    id developerId
-                    name developerName
-                    email developerEmail
-                }
-            }
-            scm {
-                connection gitUrl
-                developerConnection gitUrl
-                url siteUrl
-            }
-        }
-    }
-}
-
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
@@ -66,20 +28,20 @@ bintray {
     user = properties.getProperty("bintray.user")
     key = properties.getProperty("bintray.apikey")
 
-    configurations = ['archives']
     pkg {
-        repo = bintrayRepo
-        name = bintrayName
+        repo = islibraryVersionSnapshot ? 'snapshots' : 'maven'
         desc = libraryDescription
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = allLicenses
         dryRun = false
         publish = true
-        override = false
+        override = true
         publicDownloadNumbers = true
         version {
-            desc = libraryDescription
+            released  = new Date()
+            name = libraryVersionName
+            desc = libraryVersionTag
         }
     }
 }

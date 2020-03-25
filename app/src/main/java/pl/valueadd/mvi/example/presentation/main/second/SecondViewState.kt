@@ -2,9 +2,9 @@ package pl.valueadd.mvi.example.presentation.main.second
 
 import kotlinx.android.parcel.Parcelize
 import org.apache.commons.lang3.StringUtils.EMPTY
+import pl.valueadd.mvi.IBaseViewState
 import pl.valueadd.mvi.example.presentation.main.second.item.ExampleItem
-import pl.valueadd.mvi.fragment.mvi.IBasePartialState
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.IBasePartialState
 
 @Parcelize
 data class SecondViewState(

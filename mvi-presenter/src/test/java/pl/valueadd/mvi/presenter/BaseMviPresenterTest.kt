@@ -1,4 +1,4 @@
-package pl.valueadd.mvi.fragment.mvi
+package pl.valueadd.mvi.presenter
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -8,7 +8,6 @@ import io.mockk.verify
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.parcel.Parcelize
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -31,7 +30,11 @@ class BaseMviPresenterTest {
     @BeforeEach
     private fun setUp() {
         presenterPublishSubject = PublishSubject.create<TestPartialState>()
-        presenter = TestPresenter(mockMapper, mockReducer, presenterPublishSubject)
+        presenter = TestPresenter(
+            mockMapper,
+            mockReducer,
+            presenterPublishSubject
+        )
     }
 
     @Test
@@ -81,7 +84,8 @@ class BaseMviPresenterTest {
     @Test
     fun `Should not stop observing presenter intents after view detach`() {
         // Given
-        val testPresenterPartialState = TestPartialState(1)
+        val testPresenterPartialState =
+            TestPartialState(1)
         val expectedTestViewState = TestViewState(2)
         val mockView = createMockView(Observable.never())
 
@@ -224,7 +228,7 @@ private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
     private val reducer: TestReducer,
     private val presenterObservable: Observable<TestPartialState>
-) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>() {
+) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>(Schedulers.trampoline()) {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
 
@@ -243,10 +247,11 @@ private class TestPresenter(
     }
 }
 
-@Parcelize
-private class TestViewState(var someProperty: Int = 0) : IBaseViewState
+private class TestViewState(var someProperty: Int = 0) :
+    IBaseViewState
 
-private class TestPartialState(var someProperty: Int) : IBasePartialState
+private class TestPartialState(var someProperty: Int) :
+    IBasePartialState
 
 private class TestViewIntent : IBaseView.IBaseIntent
 

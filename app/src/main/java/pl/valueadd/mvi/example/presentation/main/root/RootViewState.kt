@@ -1,8 +1,8 @@
 package pl.valueadd.mvi.example.presentation.main.root
 
 import kotlinx.android.parcel.Parcelize
-import pl.valueadd.mvi.fragment.mvi.IBasePartialState
-import pl.valueadd.mvi.fragment.mvi.IBaseViewState
+import pl.valueadd.mvi.IBaseViewState
+import pl.valueadd.mvi.presenter.IBasePartialState
 
 @Parcelize
 class RootViewState :

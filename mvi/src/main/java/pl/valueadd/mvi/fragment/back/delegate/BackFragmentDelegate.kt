@@ -1,4 +1,4 @@
-package pl.valueadd.mvi.fragment.back.delegation
+package pl.valueadd.mvi.fragment.back.delegate
 
 import android.os.Bundle
 import android.view.View

@@ -23,8 +23,8 @@ dependencies {
     implementation deps.kotlin.stdlib_jdk8
 
     // Reactivex
-    implementation deps.rx.java
-    implementation deps.rx.kotlin
+    implementation deps.rx3.java
+    implementation deps.rx3.kotlin
 
     // Test dependencies
     testImplementation deps.test.mockk

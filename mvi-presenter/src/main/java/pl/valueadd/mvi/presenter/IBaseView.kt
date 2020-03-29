@@ -1,7 +1,7 @@
 package pl.valueadd.mvi.presenter
 
-import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
 
 interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposable {
 

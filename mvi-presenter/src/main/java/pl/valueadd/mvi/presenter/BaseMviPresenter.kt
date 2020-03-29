@@ -1,11 +1,11 @@
 package pl.valueadd.mvi.presenter
 
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import pl.valueadd.mvi.exception.ViewNotAttachedException
 import pl.valueadd.mvi.exception.ViewWasNotDetachedException
 
@@ -37,9 +37,8 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * @see subscribeViewStateConsumer
      * @see viewStateConsumerDisposable
      */
-    protected open val viewStateSubscriptionScheduler: Scheduler by lazy {
+    protected open val viewStateSubscriptionScheduler: Scheduler =
         Schedulers.io()
-    }
 
     /**
      * @see subscribeViewStateConsumer

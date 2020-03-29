@@ -177,6 +177,11 @@ rx.room = "androidx.room:room-rxjava2:$versions.room"
 rx.binding = "com.jakewharton.rxbinding3:rxbinding:$versions.rx_binding"
 deps.rx = rx
 
+def rx3 = [:]
+rx3.java = "io.reactivex.rxjava3:rxjava:3.0.1"
+rx3.kotlin = "io.reactivex.rxjava3:rxkotlin:3.0.0"
+deps.rx3 = rx3
+
 /**
  * Room variables.
  */

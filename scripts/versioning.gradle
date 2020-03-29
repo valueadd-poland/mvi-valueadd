@@ -1,6 +1,6 @@
 // Library version definition
-def isSnapshot = false
-def (major, minor, patch) = [2,0,0]
+def isSnapshot = true
+def (major, minor, patch) = [3,0,0]
 def libraryVersionTag = isSnapshot ? 'SNAPSHOT' : ''
 
 // Define project library version name

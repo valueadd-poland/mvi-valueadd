@@ -1,0 +1,58 @@
+apply from: "$rootDir/scripts/publish-apply.gradle"
+
+ext {
+    artifactId = 'mvi-presenter'
+}
+
+afterEvaluate { Project project ->
+    publishing {
+        publications {
+            releaseMviPresenter(MavenPublication) {
+                from components.java
+
+                artifactId = project.artifactId
+                version = project.libraryVersionName
+                groupId = publishedGroupId
+
+                pom {
+                    packaging = 'jar'
+                    groupId = publishedGroupId
+
+                    name = project.artifactId
+                    description = libraryDescription
+                    url = siteUrl
+
+                    licenses {
+                        license {
+                            name = licenseName
+                            url = licenseUrl
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = developerId
+                            name = developerName
+                            email = developerEmail
+                        }
+                    }
+
+                    scm {
+                        connection = gitUrl
+                        developerConnection = gitUrl
+                        url = siteUrl
+                    }
+                }
+            }
+        }
+    }
+}
+
+bintray {
+
+    publications = ['releaseMviPresenter']
+
+    pkg {
+        name = artifactId
+    }
+}

@@ -2,9 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply from: "$rootDir/scripts/versioning.gradle"
-apply from: "$rootDir/scripts/jfrog.gradle"
-
+apply from: 'publish.gradle'
 
 // Android library configuration
 android {
@@ -50,6 +48,9 @@ dependencies {
     // Application files
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
+    // Implement presenter library
+    api project(':mvi-presenter')
+
     //AndroidX
     implementation deps.androidx.appcompat
     implementation deps.androidx.core_ktx
@@ -72,23 +73,4 @@ dependencies {
     testImplementation deps.test.junit_api
     testImplementation deps.test.junit_params
     testRuntimeOnly deps.test.junit_engine
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from android.sourceSets.main.java.srcDirs
-}
-
-task javadoc(type: Javadoc) {
-    enabled = false
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
 }

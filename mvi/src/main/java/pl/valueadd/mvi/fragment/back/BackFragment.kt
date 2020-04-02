@@ -6,8 +6,8 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import kotlinx.android.synthetic.main.base_toolbar.*
-import pl.valueadd.mvi.fragment.back.delegation.BackFragmentDelegate
-import pl.valueadd.mvi.fragment.back.delegation.BackFragmentDelegateImpl
+import pl.valueadd.mvi.fragment.back.delegate.BackFragmentDelegate
+import pl.valueadd.mvi.fragment.back.delegate.BackFragmentDelegateImpl
 import pl.valueadd.mvi.fragment.base.BaseFragment
 import me.yokeyword.fragmentation.anim.FragmentAnimator
 

@@ -4,11 +4,11 @@ import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.Single
 import org.apache.commons.lang3.StringUtils.EMPTY
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
+import pl.valueadd.mvi.example.presentation.base.AbstractPresenter
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FirstPresenter @Inject constructor() : BaseMviPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>() {
+class FirstPresenter @Inject constructor() : AbstractPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>() {
     companion object {
         private const val PROCESING_DELAY = 5L
     }

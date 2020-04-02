@@ -8,7 +8,7 @@ import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_second.recyclerView
 import pl.valueadd.mvi.example.R
 import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, SecondPresenter>(

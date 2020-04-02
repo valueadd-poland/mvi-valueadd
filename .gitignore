@@ -19,6 +19,8 @@ gradle/wrapper
 build/
 
 # Local configuration file (sdk path, etc)
+mvi/local.properties
+mvi-presenter/local.properties
 local.properties
 
 # Log Files

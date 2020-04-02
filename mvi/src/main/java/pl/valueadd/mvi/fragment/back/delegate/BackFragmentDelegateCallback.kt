@@ -1,4 +1,4 @@
-package pl.valueadd.mvi.fragment.back.delegation
+package pl.valueadd.mvi.fragment.back.delegate
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

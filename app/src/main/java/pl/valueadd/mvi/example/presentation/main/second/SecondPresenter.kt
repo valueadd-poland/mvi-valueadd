@@ -2,12 +2,12 @@ package pl.valueadd.mvi.example.presentation.main.second
 
 import io.reactivex.Observable
 import org.apache.commons.lang3.StringUtils.EMPTY
-import pl.valueadd.mvi.fragment.mvi.BaseMviPresenter
-import pl.valueadd.mvi.fragment.mvi.IBaseView
+import pl.valueadd.mvi.example.presentation.base.AbstractPresenter
+import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class SecondPresenter
-@Inject constructor() : BaseMviPresenter<SecondViewState, SecondViewState.PartialState, IBaseView.IBaseIntent, SecondView>() {
+@Inject constructor() : AbstractPresenter<SecondViewState, SecondViewState.PartialState, IBaseView.IBaseIntent, SecondView>() {
 
     override fun reduce(
         previousState: SecondViewState,

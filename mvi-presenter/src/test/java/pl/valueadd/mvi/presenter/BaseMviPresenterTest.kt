@@ -23,6 +23,9 @@ class BaseMviPresenterTest {
     @MockK
     private lateinit var mockReducer: TestReducer
 
+    @MockK
+    private lateinit var mockTestLogger: TestErrorLogger
+
     private lateinit var presenter: TestPresenter
 
     private lateinit var presenterPublishSubject: PublishSubject<TestPartialState>
@@ -33,7 +36,8 @@ class BaseMviPresenterTest {
         presenter = TestPresenter(
             mockMapper,
             mockReducer,
-            presenterPublishSubject
+            presenterPublishSubject,
+            mockTestLogger
         )
     }
 
@@ -215,6 +219,42 @@ class BaseMviPresenterTest {
         assert(presenterPublishSubject.hasObservers() == false)
     }
 
+    @Test
+    fun `Should call onError when error occurs during observing presenter intents`() {
+        // Given
+        val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
+        val mockView = createMockView(viewIntentsSubject)
+        val mockThrowable: Throwable = mockk(relaxed = true)
+        every { mockThrowable.stackTrace } returns emptyArray()
+        every { mockThrowable.cause } returns null
+        every { mockTestLogger.logError(any()) } returns Unit
+        presenter.attachView(mockView)
+
+        // When
+        presenterPublishSubject.onError(mockThrowable)
+
+        // Then
+        verify(exactly = 1) { mockTestLogger.logError(mockThrowable) }
+    }
+
+    @Test
+    fun `Should call onError when error occurs during observing view intents`() {
+        // Given
+        val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
+        val mockView = createMockView(viewIntentsSubject)
+        val mockThrowable: Throwable = mockk(relaxed = true)
+        every { mockThrowable.stackTrace } returns emptyArray()
+        every { mockThrowable.cause } returns null
+        every { mockTestLogger.logError(any()) } returns Unit
+        presenter.attachView(mockView)
+
+        // When
+        viewIntentsSubject.onError(mockThrowable)
+
+        // Then
+        verify(exactly = 1) { mockTestLogger.logError(mockThrowable) }
+    }
+
     private fun createMockView(viewIntentsObservable: Observable<TestViewIntent>): IBaseView<TestViewState, TestViewIntent> {
         return mockk {
             every { provideViewIntents() } returns listOf(viewIntentsObservable)
@@ -227,7 +267,8 @@ class BaseMviPresenterTest {
 private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
     private val reducer: TestReducer,
-    private val presenterObservable: Observable<TestPartialState>
+    private val presenterObservable: Observable<TestPartialState>,
+    private val testErrorLogger: TestErrorLogger
 ) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>(Schedulers.trampoline()) {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
@@ -244,6 +285,10 @@ private class TestPresenter(
 
     override fun providePresenterIntents(): List<Observable<out TestPartialState>> {
         return listOf(presenterObservable)
+    }
+
+    override fun onError(throwable: Throwable) {
+        testErrorLogger.logError(throwable)
     }
 }
 
@@ -263,6 +308,12 @@ private class TestViewIntentToPartialStateMapper {
 
 private class TestReducer {
     fun reduce(previousState: TestViewState, action: TestPartialState): TestViewState {
+        throw RuntimeException("Should be mocked")
+    }
+}
+
+private class TestErrorLogger {
+    fun logError(throwable: Throwable) {
         throw RuntimeException("Should be mocked")
     }
 }

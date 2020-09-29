@@ -25,7 +25,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * Hot observable of [view state][IBaseViewState].
      */
     val stateObservable: Observable<VS>
-        get() = viewStateBehaviorSubject
+        get() = viewStateBehaviorSubject.share()
 
     /**
      * Returns [view][IBaseView] but may throw [ViewNotAttachedException] if called in wrong place.
@@ -37,9 +37,8 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      * @see subscribeViewStateConsumer
      * @see viewStateConsumerDisposable
      */
-    protected open val viewStateSubscriptionScheduler: Scheduler by lazy {
+    protected open val viewStateSubscriptionScheduler: Scheduler =
         Schedulers.io()
-    }
 
     /**
      * @see subscribeViewStateConsumer
@@ -76,7 +75,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     /**
      * A subject to pass emission of wrapped intents to currently binded view's consumer.
      */
-    private val viewStateBehaviorSubject by lazy {
+    private val viewStateBehaviorSubject: BehaviorSubject<VS> by lazy {
         BehaviorSubject.createDefault(currentState)
     }
 
@@ -180,6 +179,14 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     protected open fun providePresenterIntents(): List<Observable<out PS>> = listOf()
 
     /**
+     * Method which is called when an Exception occurred during observing external
+     * observables or reducing states.
+     */
+    protected open fun onError(throwable: Throwable) {
+        // no-op
+    }
+
+    /**
      * Binds provided view's intents to wrapper subject.
      *
      * This method should be called **every time** when view is attached.
@@ -217,6 +224,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         viewStateReducerDisposable =
             currentViewIntentsSubject
                 .flatMap(::mapViewIntentToPartialState)
+                .doOnError(::onError)
                 .mergeWith(Observable.merge(providePresenterIntents()))
                 .scan(currentState, this::reduce)
                 .distinctUntilChanged()

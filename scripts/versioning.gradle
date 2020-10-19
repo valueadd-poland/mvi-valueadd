@@ -1,19 +1,54 @@
-// Library version definition
-def isSnapshot = false
-def (major, minor, patch) = [2,0,0]
-def libraryVersionTag = isSnapshot ? 'SNAPSHOT' : ''
+task printVersionName() {
+    println(getProductionVersionName() + " (" + getProductionVersionCode() + ")")
+}
+
+@SuppressWarnings("GroovyUnusedDeclaration")
+static def getProductionVersionName() {
+    def (major, minor, patch, build, sha, isSnapshot) = getLastMasterGitTagVersion()
+    def versionName = "${major}.${minor}.${patch}"
+    if (isSnapshot) {
+        return "$versionName-SNAPSHOT"
+    }
+    return versionName
+}
+
+@SuppressWarnings("GroovyUnusedDeclaration")
+static def getProductionVersionCode() {
+    def (major, minor, patch, build, sha, isSnapshot) = getLastMasterGitTagVersion()
+    return major.toInteger() * 1_000_000 + minor.toInteger() * 1_000 + patch.toInteger()
+}
+
+static def getCurrentBranch() {
+    return "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+}
+
+static def getLastMasterGitTagVersion() {
+    def name = "git describe --tags ${getCurrentBranch()} --long".execute().text.replace("v", "").trim()
+    def (tag, build, sha, snapshot) = name.tokenize('-')
+    def isSnapshot = snapshot != null
+    if (sha == null) {
+        sha = "git rev-parse --short HEAD".execute().text.trim()
+    } else {
+        sha = sha.substring(1) // to remove git's g prefix
+    }
+    def (major, minor, patch) = (tag != null) ? tag.tokenize('.') : [1, 0, 0]
+    return [major, minor, patch, build, sha, isSnapshot]
+}
+
+// Export methods.
+ext.getProductionVersionName = this.&getProductionVersionName
+ext.getProductionVersionCode = this.&getProductionVersionCode
 
 // Define project library version name
-def libraryVersionName = "$major.$minor.$patch"
-def libraryVersionNameWithTag = isSnapshot ? "$libraryVersionName-$libraryVersionTag" : libraryVersionName
-
+def libraryVersionName = getProductionVersionName()
 // Generate library version code
-def libraryVersionCode = major.toInteger() * 1_000_000 + minor.toInteger() * 1_000 + patch.toInteger()
+def libraryVersionCode = getProductionVersionCode()
+
+def isSnapshot = libraryVersionName.endsWith("SNAPSHOT")
+def libraryVersionTag = isSnapshot ? 'SNAPSHOT' : ''
 
 // Set project extra properties
 ext.islibraryVersionSnapshot = isSnapshot
 ext.libraryVersionTag = libraryVersionTag
-ext.libraryVersionNameWithTag = libraryVersionNameWithTag
 ext.libraryVersionName = libraryVersionName
 ext.libraryVersionCode = libraryVersionCode
-println "Version of ${project.name} is $libraryVersionNameWithTag ($libraryVersionCode)"

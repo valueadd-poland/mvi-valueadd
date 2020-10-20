@@ -13,9 +13,6 @@ afterEvaluate { Project project ->
                 artifactId = project.artifactId
                 version = project.libraryVersionName
                 groupId = publishedGroupId
-                artifact project.sourcesJar {
-                    classifier "sources"
-                }
 
                 pom {
                     packaging = 'jar'
@@ -58,8 +55,4 @@ bintray {
     pkg {
         name = artifactId
     }
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    from sourceSets.main.allSource
 }

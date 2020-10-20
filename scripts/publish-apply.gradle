@@ -1,19 +1,23 @@
+import java.nio.file.Files
+
 apply from: "$rootDir/scripts/versioning.gradle"
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
+
+// Publishing config
 
 project.afterEvaluate {
     publishing {
         repositories {
             maven {
-                def releasesRepoUrl = "https://dl.bintray.com/valueadd/android"
-                println("Repository url is $releasesRepoUrl")
+                url = "https://dl.bintray.com/valueadd/android"
             }
         }
     }
 }
 
 ext {
+    libraryRepository = 'maven'
     publishedGroupId = 'pl.valueadd'
     libraryName = 'MVI-Valueadd'
 
@@ -34,6 +38,10 @@ ext {
 group = publishedGroupId
 version = libraryVersionName
 
+//endregion
+
+//region Bintray
+
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
@@ -42,8 +50,9 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     pkg {
-        repo = 'android'
+        repo = libraryRepository
         desc = libraryDescription
+        userOrg = 'valueadd'
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = allLicenses
@@ -52,9 +61,11 @@ bintray {
         override = true
         publicDownloadNumbers = true
         version {
-            released  = new Date()
+            released = new Date()
             name = libraryVersionName
             desc = libraryVersionTag
         }
     }
 }
+
+//endregion

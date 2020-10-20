@@ -1,4 +1,17 @@
 apply from: "$rootDir/scripts/versioning.gradle"
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+project.afterEvaluate {
+    publishing {
+        repositories {
+            maven {
+                def releasesRepoUrl = "https://dl.bintray.com/valueadd/android"
+                println("Repository url is $releasesRepoUrl")
+            }
+        }
+    }
+}
 
 ext {
     publishedGroupId = 'pl.valueadd'
@@ -29,12 +42,12 @@ bintray {
     key = properties.getProperty("bintray.apikey")
 
     pkg {
-        repo = islibraryVersionSnapshot ? 'snapshots' : 'maven'
+        repo = 'android'
         desc = libraryDescription
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = allLicenses
-        dryRun = false
+        dryRun = islibraryVersionSnapshot /* DRY RUN */
         publish = true
         override = true
         publicDownloadNumbers = true

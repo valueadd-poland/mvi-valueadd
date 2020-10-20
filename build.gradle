@@ -30,28 +30,11 @@ allprojects {
     }
     apply from: "$rootDir/scripts/detekt.gradle"
     apply from: "$rootDir/scripts/ktlint.gradle"
-    apply from: "$rootDir/scripts/findbugs.gradle"
     apply from: "$rootDir/scripts/pmd.gradle"
 }
 
 subprojects { Project project ->
     if (project.name.startsWith('mvi')) {
-        apply plugin: 'com.jfrog.bintray'
-        apply plugin: 'maven-publish'
 
-        project.afterEvaluate {
-            publishing {
-                repositories {
-                    maven {
-                        def releasesRepoUrl = "https://dl.bintray.com/valueadd-poland/maven"
-                        def snapshotsRepoUrl = "https://dl.bintray.com/valueadd-poland/snapshots"
-                        url = islibraryVersionSnapshot
-                                ? snapshotsRepoUrl
-                                : releasesRepoUrl
-                        println("Repository url is $url")
-                    }
-                }
-            }
-        }
     }
 }

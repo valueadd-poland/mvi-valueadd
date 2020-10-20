@@ -27,9 +27,6 @@ jobs:
           name: Run Detekt
           command: ./gradlew detekt
       - run:
-          name: Run FindBugs
-          command: ./gradlew findbugs
-      - run:
           name: Run Pmd
           command: ./gradlew pmd
       - run:

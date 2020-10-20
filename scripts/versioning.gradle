@@ -1,5 +1,7 @@
 task printVersionName() {
-    println(getProductionVersionName() + " (" + getProductionVersionCode() + ")")
+    doLast {
+        println(getProductionVersionName() + " (" + getProductionVersionCode() + ")")
+    }
 }
 
 @SuppressWarnings("GroovyUnusedDeclaration")

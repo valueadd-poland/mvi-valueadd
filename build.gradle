@@ -32,9 +32,3 @@ allprojects {
     apply from: "$rootDir/scripts/ktlint.gradle"
     apply from: "$rootDir/scripts/pmd.gradle"
 }
-
-subprojects { Project project ->
-    if (project.name.startsWith('mvi')) {
-
-    }
-}

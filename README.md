@@ -4,3 +4,17 @@ This is library for handling mvi architecture and android lifecycle events, full
 # Dependency
 `implementation 'pl.valueadd:mvi:{current_version}'`
 
+### Upload to Bintray
+
+#### mvi
+
+```
+./gradlew :mvi:bintrayUpload
+```
+
+#### mvi-presenter
+
+```
+./gradlew :mvi-presenter:bintrayUpload
+```
+

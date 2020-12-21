@@ -29,7 +29,9 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
 
     /**
      * Returns [view][IBaseView] but may throw [ViewNotAttachedException] if called in wrong place.
+     * @throws ViewNotAttachedException if called in wrong place
      */
+    @get:Throws(ViewNotAttachedException::class)
     protected val view: V
         get() = internalView ?: throw ViewNotAttachedException()
 
@@ -53,12 +55,12 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     private var internalView: V? = null
 
     /**
-     * Use to determine when a intents have to be binded.
+     * Use to determine when a intents have to be bound.
      */
     private var wasViewAttachedOnce = false
 
     /**
-     * A disposable container of temporarily binded view intents.
+     * A disposable container of temporarily bound view intents.
      */
     private var currentViewIntentsDisposable: Disposable? = null
 
@@ -68,12 +70,12 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     private var viewStateReducerDisposable: Disposable? = null
 
     /**
-     * A disposable of currently binded consumer for emission of wrapped intents.
+     * A disposable of currently bound consumer for emission of wrapped intents.
      */
     private var viewStateConsumerDisposable: Disposable? = null
 
     /**
-     * A subject to pass emission of wrapped intents to currently binded view's consumer.
+     * A subject to pass emission of wrapped intents to currently bound view's consumer.
      */
     private val viewStateBehaviorSubject: BehaviorSubject<VS> by lazy {
         BehaviorSubject.createDefault(currentState)
@@ -90,6 +92,16 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     //region Lifecycle methods
 
     /**
+     * If view hasn't attached the first time, the presenter calls [IBaseView.provideInitialViewState]
+     * to set initial value of [currentState]
+     */
+    override fun initializeState(view: V) {
+        if (!wasViewAttachedOnce) {
+            currentState = view.provideInitialViewState()
+        }
+    }
+
+    /**
      * If view is attached the first time, the presenter subscribes its provided intents.
      * Each time subscribes to view state's consumer and bind view's intents.
      *
@@ -97,6 +109,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
      *
      * @throws ViewWasNotDetachedException if previous view was not detached
      */
+    @Throws(ViewWasNotDetachedException::class)
     override fun attachView(view: V) {
         if (this.internalView != null) {
             throw ViewWasNotDetachedException()
@@ -105,7 +118,6 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         this.internalView = view
 
         if (!wasViewAttachedOnce) {
-            currentState = view.provideInitialViewState()
             startObservingCurrentViewStateSubject()
             wasViewAttachedOnce = true
         }

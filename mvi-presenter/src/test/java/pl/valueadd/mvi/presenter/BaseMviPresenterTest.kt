@@ -8,7 +8,8 @@ import io.mockk.verify
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import org.junit.jupiter.api.Assertions
+/* ktlint-disable no-wildcard-imports */
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -47,11 +48,12 @@ class BaseMviPresenterTest {
         val firstView = createMockView(Observable.never())
         val secondView: IBaseView<TestViewState, TestViewIntent> = mockk()
 
+        presenter.initializeState(firstView)
         presenter.attachView(firstView)
 
         // When
         // Then
-        Assertions.assertThrows(ViewWasNotDetachedException::class.java) {
+        assertThrows(ViewWasNotDetachedException::class.java) {
             presenter.attachView(secondView)
         }
     }
@@ -61,6 +63,7 @@ class BaseMviPresenterTest {
         // Given
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
         val mockView = createMockView(viewIntentsSubject)
+        presenter.initializeState(mockView)
 
         // When
         presenter.attachView(mockView)
@@ -75,6 +78,7 @@ class BaseMviPresenterTest {
         // Given
         val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
         val mockView = createMockView(viewIntentsSubject)
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
 
         // When
@@ -82,7 +86,7 @@ class BaseMviPresenterTest {
 
         // Then
         verify(exactly = 1) { mockView.provideViewIntents() }
-        assert(viewIntentsSubject.hasObservers() == false)
+        assertFalse(viewIntentsSubject.hasObservers())
     }
 
     @Test
@@ -94,6 +98,7 @@ class BaseMviPresenterTest {
         val mockView = createMockView(Observable.never())
 
         every { mockReducer.reduce(any(), testPresenterPartialState) } returns expectedTestViewState
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
 
         // When
@@ -117,6 +122,7 @@ class BaseMviPresenterTest {
         val reducedViewState = TestViewState(1)
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
         viewIntentsSubject.onNext(testViewIntent) // For example user press login button
 
@@ -139,6 +145,7 @@ class BaseMviPresenterTest {
 
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
         viewIntentsSubject.onNext(testViewIntent) // For example user press login button
         presenter.detachView() // View of fragment is destroyed by system
@@ -161,6 +168,7 @@ class BaseMviPresenterTest {
         val mockView = createMockView(viewIntentsSubject)
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
         viewIntentsSubject.onNext(testViewIntent) // For example user press login button
 
@@ -186,6 +194,7 @@ class BaseMviPresenterTest {
 
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
         viewIntentsSubject.onNext(testViewIntent) // For example user press login button
 
@@ -208,6 +217,7 @@ class BaseMviPresenterTest {
 
         every { mockMapper.mapViewIntentToPartialState(testViewIntent) } returns testPartialStatePublishSubject
         every { mockReducer.reduce(any(), testPartialState) } returns reducedViewState
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
         viewIntentsSubject.onNext(testViewIntent) // For example user press login button
 
@@ -215,8 +225,8 @@ class BaseMviPresenterTest {
         presenter.destroy()
 
         // Then
-        assert(testPartialStatePublishSubject.hasObservers() == false)
-        assert(presenterPublishSubject.hasObservers() == false)
+        assertFalse(testPartialStatePublishSubject.hasObservers())
+        assertFalse(presenterPublishSubject.hasObservers())
     }
 
     @Test
@@ -228,6 +238,7 @@ class BaseMviPresenterTest {
         every { mockThrowable.stackTrace } returns emptyArray()
         every { mockThrowable.cause } returns null
         every { mockTestLogger.logError(any()) } returns Unit
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
 
         // When
@@ -246,6 +257,7 @@ class BaseMviPresenterTest {
         every { mockThrowable.stackTrace } returns emptyArray()
         every { mockThrowable.cause } returns null
         every { mockTestLogger.logError(any()) } returns Unit
+        presenter.initializeState(mockView)
         presenter.attachView(mockView)
 
         // When

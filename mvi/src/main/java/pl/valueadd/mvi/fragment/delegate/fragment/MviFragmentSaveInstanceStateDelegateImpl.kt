@@ -26,11 +26,13 @@ class MviFragmentSaveInstanceStateDelegateImpl<V : IBaseView<VS, *>, VS : IBaseV
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         this.restoredViewState =
             savedInstanceState?.getParcelable(VIEW_STATE_BUNDLE_KEY)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
         outState.putParcelable(
             VIEW_STATE_BUNDLE_KEY,
             presenter.currentState as Parcelable

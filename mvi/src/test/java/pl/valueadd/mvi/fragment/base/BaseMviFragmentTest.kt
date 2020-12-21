@@ -1,11 +1,11 @@
 package pl.valueadd.mvi.fragment.base
 
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+/* ktlint-disable no-wildcard-imports */
+import io.mockk.*
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.parcel.Parcelize
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import pl.valueadd.mvi.IBaseViewState
@@ -25,6 +25,26 @@ class BaseMviFragmentTest {
         mockPresenter = mockk(relaxed = true)
         fragment = TestMviFragment()
         fragment.presenter = mockPresenter
+    }
+
+    @AfterEach
+    fun tearDown() {
+        clearAllMocks()
+    }
+
+    @Test
+    fun `Should call initialize state on presenter on create`() {
+        // Given
+        val mockActivity = mockk<TestActivity>(relaxed = true) {
+            every { supportDelegate } returns mockk(relaxed = true)
+        }
+        fragment.onAttach(mockActivity)
+
+        // When
+        fragment.onCreate(null)
+
+        // Then
+        verify(exactly = 1) { mockPresenter.initializeState(fragment) }
     }
 
     @Test

@@ -5,23 +5,21 @@ import android.view.View
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_second.recyclerView
 import pl.valueadd.mvi.example.R
+import pl.valueadd.mvi.example.databinding.FragmentSecondBinding
 import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
+import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
 import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
-class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, SecondPresenter>(
-    R.layout.fragment_second),
+class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, SecondPresenter, FragmentSecondBinding>(),
     SecondView {
-
-    companion object {
-        fun createInstance(): SecondFragment =
-            SecondFragment()
-    }
 
     @Inject
     override lateinit var presenter: SecondPresenter
+
+    override val bindingInflater: FragmentBindingInflater<FragmentSecondBinding>
+        get() = FragmentSecondBinding::inflate
 
     private val listAdapter: FastItemAdapter<IItem<*>>
         by lazy { FastItemAdapter<IItem<*>>() }
@@ -31,7 +29,7 @@ class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBas
         setupView()
     }
 
-    override fun onDestroyView() {
+    override fun onDestroyView(): Unit = with(requireBinding) {
         super.onDestroyView()
         recyclerView.adapter = null
     }
@@ -50,8 +48,12 @@ class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBas
         listAdapter.setNewList(list)
     }
 
-    private fun setupView() {
-
+    private fun setupView(): Unit = with(requireBinding) {
         recyclerView.adapter = listAdapter
+    }
+
+    companion object {
+        fun createInstance(): SecondFragment =
+            SecondFragment()
     }
 }

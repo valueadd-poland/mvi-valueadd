@@ -6,8 +6,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import me.yokeyword.fragmentation.anim.DefaultVerticalAnimator
-import me.yokeyword.fragmentation.anim.FragmentAnimator
 import pl.valueadd.mvi.R
 
 class BackFragmentDelegateImpl(
@@ -52,9 +50,6 @@ class BackFragmentDelegateImpl(
         inflateMenu(R.menu.base_menu)
         setOnMenuItemClickListener(fragment::onOptionsItemSelected)
     }
-
-    override fun onCreateFragmentAnimator(): FragmentAnimator =
-        DefaultVerticalAnimator()
 
     private fun getString(@StringRes resId: Int): String =
         fragment.getString(resId)

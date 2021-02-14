@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs"
 apply from: 'publish.gradle'
 
 // Android library configuration
@@ -29,7 +30,9 @@ android {
         }
         unitTests.returnDefaultValues = true
     }
-
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
 
         debug {
@@ -65,9 +68,6 @@ dependencies {
     implementation deps.rx.android
     implementation deps.rx.kotlin
     implementation deps.rx.binding
-
-    // Utility
-    implementation deps.utility.fragmentation
 
     // Test dependencies
     testImplementation deps.test.mockk

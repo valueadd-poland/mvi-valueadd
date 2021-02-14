@@ -5,8 +5,8 @@ import android.view.View
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.ModelAbstractItem
 import kotlinx.android.parcel.Parcelize
-import kotlinx.android.synthetic.main.item_example.view.itemTitle
 import pl.valueadd.mvi.example.R
+import pl.valueadd.mvi.example.databinding.ItemExampleBinding
 import pl.valueadd.mvi.example.domain.model.ExampleModel
 
 @Parcelize
@@ -23,12 +23,14 @@ class ExampleItem(override var model: ExampleModel) :
         get() = model.id
         set(_) = Unit // has to be getter
 
-    override fun getViewHolder(v: View): ExampleViewHolder =
-        ExampleViewHolder(v)
+    override fun getViewHolder(v: View): ExampleViewHolder {
+        val bidning = ItemExampleBinding.bind(v)
+        return ExampleViewHolder(bidning.root, bidning)
+    }
 
-    class ExampleViewHolder(view: View) : FastAdapter.ViewHolder<ExampleItem>(view) {
+    class ExampleViewHolder(view: View, private val binding: ItemExampleBinding) : FastAdapter.ViewHolder<ExampleItem>(view) {
 
-        override fun bindView(item: ExampleItem, payloads: MutableList<Any>) = with(itemView) {
+        override fun bindView(item: ExampleItem, payloads: MutableList<Any>): Unit = with(binding) {
             itemTitle.text = item.model.title
         }
 

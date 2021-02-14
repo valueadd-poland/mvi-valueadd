@@ -3,6 +3,7 @@ package pl.valueadd.mvi.fragment.base
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.viewbinding.ViewBinding
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import pl.valueadd.mvi.presenter.BaseMviPresenter
@@ -12,13 +13,13 @@ import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegate
 import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegateImpl
 import pl.valueadd.mvi.presenter.IBaseViewState
 
-abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>>(@LayoutRes layoutId: Int) :
-    BaseFragment(layoutId),
+abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>, Binding : ViewBinding> :
+    BaseFragment<Binding>(),
     IBaseView<VS, VI> {
 
     /* BaseMviFragment */
 
-    abstract var presenter: P
+    abstract val presenter: P
 
     /**
      * Returns disposable container of subscriptions.
@@ -51,11 +52,6 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
         mviDelegate.onCreate(savedInstanceState)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        disposables = CompositeDisposable()
-    }
-
     override fun onStart() {
         super.onStart()
         mviDelegate.onStart()
@@ -73,7 +69,7 @@ abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : I
 
     override fun onDestroyView() {
         super.onDestroyView()
-        dispose()
+        disposables.clear()
     }
 
     override fun onDestroy() {

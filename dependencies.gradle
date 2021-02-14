@@ -8,10 +8,11 @@ ext.deps = deps
  * Version variables.
  */
 def versions = [:]
+/* Android */
 versions.android_gradle_plugin = "4.1.0"
-versions.androidx_appcompat = "1.0.2"
-versions.androidx_constraint = "1.1.3"
-versions.androidx_material = "1.0.0"
+versions.androidx_appcompat = "1.2.0"
+versions.androidx_constraint = "2.0.4"
+versions.androidx_material = "1.3.0"
 versions.androidx_recyclerview = "1.0.0"
 versions.androidx_core = "1.0.2"
 versions.androidx_viewpager = "1.0.0"
@@ -20,50 +21,66 @@ versions.androidx_card_view = "1.0.0"
 versions.androidx_grid_layout = "1.0.0"
 versions.androidx_annotation = "1.1.0"
 versions.lifecycle = "2.0.0"
-versions.kotlin = "1.3.61"
-versions.ktlint = "0.32.0"
-versions.fabric = "1.29.0"
-versions.google_plugin = "4.3.3"
-versions.circle_image_view = "3.0.0"
 versions.material_dialogs = "2.6.0"
+versions.material_progress_bar = "1.6.1"
+versions.androidx_nav = "2.3.3"
+
+/* Persistence */
+versions.room = "2.1.0"
+versions.realm = "5.12.0"
+
+/* Kotlin */
+versions.kotlin = "1.4.30"
+
+/* Build utility */
+versions.ktlint = "0.32.0"
+versions.google_plugin = "4.3.3"
+
+/* Dependency Injection */
 versions.toothpick = "2.1.0"
 versions.toothpick_testing = "1.1.3"
-versions.dropwizard_testing = "1.3.13"
-versions.rx_java = "2.1.13"
-versions.rx_android = "2.0.2"
+
+/* Rx */
+versions.rx_java = "2.2.20"
+versions.rx_android = "2.1.1"
 versions.rx_kotlin = "2.4.0"
 versions.rx_network = "3.0.3"
 versions.rx_realm_exitensions = "2.5.0"
-versions.rx_binding = "3.0.0-alpha2"
+versions.rx_binding = "3.1.0"
+versions.rx_java_extensions = "0.20.10"
+
+/* Networking */
 versions.retrofit = "2.6.0"
 versions.okhttp_logging_interceptor = "4.0.0"
-versions.rx_java_extensions = "0.20.10"
+versions.okhttp = "3.14.0"
+
+/* Utility */
+versions.mapstruct = "1.4.1.Final"
 versions.crashlytics = "2.10.1@aar"
+versions.apache_lang = "3.9"
 versions.joda_time = "2.10.2"
-versions.mapstruct = "1.3.0.Final"
+versions.glide = "4.9.0"
+versions.no_permissions = "1.1.2"
+versions.convalida = "3.1.0"
+versions.easy_validation = "1.0.1"
+versions.fast_adapter = "4.0.1"
+
+/* Testing */
 versions.junit = "5.5.2"
 versions.mockito = "2.25.1"
 versions.mockito_ktx = "2.1.0"
 versions.dropwizard_testing = "1.3.13"
 versions.matchers = "1.5.0"
 versions.androidx_test_core = "1.1.1-alpha02"
+versions.dropwizard_testing = "1.3.13"
 versions.dexmaker_mockito = "1.2"
 versions.androidx_runner = "1.1.2-alpha02"
-versions.espresso = "3.2.0-alpha02"
-versions.okhttp = "3.14.0"
-versions.robolectric = "4.3"
-versions.glide = "4.9.0"
-versions.realm = "5.12.0"
-versions.apache_lang = "3.9"
-versions.room = "2.1.0"
-versions.no_permissions = "1.1.2"
-versions.convalida = "3.1.0"
-versions.easy_validation = "1.0.1"
-versions.fragmentation = "1.0.1"
-versions.material_progress_bar = "1.6.1"
-versions.fast_adapter = "4.0.1"
 versions.mockk = "1.9.3"
+versions.espresso = "3.2.0-alpha02"
+versions.robolectric = "4.3"
 versions.junit5_runner = "1.6.2.0"
+
+/* Publication plugins */
 versions.android_maven = "1.4.1"
 versions.bintray = "1.7.3"
 deps.versions = versions
@@ -81,6 +98,7 @@ build.realm_gradle_plugin = "io.realm:realm-gradle-plugin:$versions.realm"
 build.junit5_runner = "de.mannodermaus.gradle.plugins:android-junit5:$versions.junit5_runner"
 build.android_maven = "com.github.dcendents:android-maven-gradle-plugin:$versions.android_maven"
 build.bintray =  "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintray"
+build.safeargs = "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.androidx_nav"
 deps.build = build
 
 /**
@@ -123,6 +141,9 @@ androidx.multidex = "androidx.multidex:multidex:$versions.androidx_multidex"
 androidx.card_view = "androidx.cardview:cardview:$versions.androidx_card_view"
 androidx.grid_layout = "androidx.gridlayout:gridlayout:$versions.androidx_grid_layout"
 androidx.annotation = "androidx.annotation:annotation:$versions.androidx_annotation"
+androidx.nav_runtime = "androidx.navigation:navigation-runtime-ktx:$versions.androidx_nav"
+androidx.nav_fragment = "androidx.navigation:navigation-fragment-ktx:$versions.androidx_nav"
+androidx.nav_ui_ktx = "androidx.navigation:navigation-ui-ktx:$versions.androidx_nav"
 deps.androidx = androidx
 
 /**
@@ -170,7 +191,7 @@ deps.di = di
 def rx = [:]
 rx.java = "io.reactivex.rxjava2:rxjava:$versions.rx_java"
 rx.android = "io.reactivex.rxjava2:rxandroid:$versions.rx_android"
-rx.kotlin = "io.reactivex.rxjava2:rxkotlin:$versions.rx_android"
+rx.kotlin = "io.reactivex.rxjava2:rxkotlin:$versions.rx_kotlin"
 rx.java_extensions = "com.github.akarnokd:rxjava2-extensions:$versions.rx_java_extensions"
 rx.realm_extensions = "com.github.vicpinm:krealmextensions:$versions.rx_realm_exitensions"
 rx.room = "androidx.room:room-rxjava2:$versions.room"

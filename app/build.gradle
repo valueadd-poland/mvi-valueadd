@@ -36,6 +36,10 @@ android {
         }
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     lintOptions {
         lintConfig file("$rootDir/scripts/lint-rules.xml")
     }
@@ -72,7 +76,6 @@ dependencies {
 
     // Utility
     implementation deps.utility.apache_lang
-    implementation deps.utility.fragmentation
 
     // AndroidX
     implementation deps.androidx.appcompat
@@ -82,5 +85,8 @@ dependencies {
     implementation deps.androidx.material
     implementation deps.androidx.multidex
     implementation deps.androidx.annotation
+    implementation deps.androidx.nav_runtime
+    implementation deps.androidx.nav_fragment
+    implementation deps.androidx.nav_ui_ktx
     implementation "androidx.lifecycle:lifecycle-common:2.2.0"
 }

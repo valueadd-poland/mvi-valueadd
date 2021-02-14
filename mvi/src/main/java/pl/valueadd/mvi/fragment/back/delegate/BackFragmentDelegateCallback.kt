@@ -13,7 +13,6 @@ interface BackFragmentDelegateCallback {
 
     @get:DrawableRes
     val navigationIcon: Int
-        get() = R.drawable.ic_arrow_back_white_24dp
 
     val toolbarNavigation: Toolbar
 

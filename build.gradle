@@ -12,6 +12,7 @@ buildscript {
         classpath deps.build.junit5_runner
         classpath deps.build.android_maven
         classpath deps.build.bintray
+        classpath deps.build.safeargs
     }
 }
 

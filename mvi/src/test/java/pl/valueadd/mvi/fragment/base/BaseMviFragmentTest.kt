@@ -35,9 +35,7 @@ class BaseMviFragmentTest {
     @Test
     fun `Should call initialize state on presenter on create`() {
         // Given
-        val mockActivity = mockk<TestActivity>(relaxed = true) {
-            every { supportDelegate } returns mockk(relaxed = true)
-        }
+        val mockActivity = mockk<TestActivity>(relaxed = true)
         fragment.onAttach(mockActivity)
 
         // When
@@ -72,9 +70,7 @@ class BaseMviFragmentTest {
     @Test
     fun `Should call onDestroy on presenter`() {
         // Given
-        val mockActivity = mockk<TestActivity>(relaxed = true) {
-            every { supportDelegate } returns mockk(relaxed = true)
-        }
+        val mockActivity = mockk<TestActivity>(relaxed = true)
         fragment.onAttach(mockActivity)
 
         // When

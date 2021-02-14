@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_first"
+        android:id="@+id/firstFragment"
         android:icon="@android:drawable/ic_dialog_dialer"
         android:title="@string/navigation_first" />
 
     <item
-        android:id="@+id/navigation_second"
+        android:id="@+id/secondFragment"
         android:icon="@android:drawable/ic_dialog_email"
         android:title="@string/navigation_second" />
 
     <item
-        android:id="@+id/navigation_third"
+        android:id="@+id/thirdFragment"
         android:icon="@android:drawable/ic_dialog_info"
         android:title="@string/navigation_third" />
 

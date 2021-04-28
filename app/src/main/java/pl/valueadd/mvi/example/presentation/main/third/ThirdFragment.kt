@@ -13,7 +13,8 @@ import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
 import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
-class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, ThirdPresenter, FragmentThirdBinding>(),
+class ThirdFragment :
+    AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, ThirdPresenter, FragmentThirdBinding>(),
     ThirdView {
 
     @Inject
@@ -33,7 +34,7 @@ class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseVi
     }
 
     private fun bindListeners() {
-       requireBinding.aboutButton
+        requireBinding.aboutButton
             .throttleClicks()
             .onSuccess(disposables, { navigateToAboutView() })
     }
@@ -46,11 +47,5 @@ class ThirdFragment : AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseVi
 
     override fun provideInitialViewState(): ThirdViewState {
         return restoredViewState ?: ThirdViewState()
-    }
-
-    companion object {
-
-        fun createInstance(): ThirdFragment =
-            ThirdFragment()
     }
 }

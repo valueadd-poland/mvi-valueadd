@@ -69,9 +69,4 @@ class FirstFragment :
             .throttleClicks()
             .onSuccess(disposables, { navigateToAboutView() })
     }
-
-    companion object {
-        fun createInstance(): FirstFragment =
-            FirstFragment()
-    }
 }

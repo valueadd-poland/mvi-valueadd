@@ -1,6 +1,10 @@
 package pl.valueadd.mvi.example.presentation.base
 
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewbinding.ViewBinding
 import pl.valueadd.mvi.IBaseViewState
 import pl.valueadd.mvi.example.utility.dependencyinjection.DependencyUtil
@@ -27,5 +31,11 @@ abstract class AbstractBaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState
     override fun onCreate(savedInstanceState: Bundle?) {
         DependencyUtil.inject(requireActivity(), this)
         super.onCreate(savedInstanceState)
+    }
+
+    protected fun Toolbar.setupWithNavController(appBarConfiguration: AppBarConfiguration? = null) {
+        val navController = findNavController()
+        val configuration = appBarConfiguration ?: AppBarConfiguration(navController.graph)
+        setupWithNavController(navController, configuration)
     }
 }

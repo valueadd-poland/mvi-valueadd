@@ -57,6 +57,7 @@ dependencies {
 
     //AndroidX
     implementation deps.androidx.appcompat
+    implementation deps.androidx.activity
     implementation deps.androidx.core_ktx
     implementation deps.androidx.material
 

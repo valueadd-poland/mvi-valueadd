@@ -58,5 +58,6 @@ abstract class BaseFragment<Binding : ViewBinding> :
 
 typealias FragmentBindingInflater<Binding> = (
     inflater: LayoutInflater,
-    container: ViewGroup?, attachToParent: Boolean
+    container: ViewGroup?,
+    attachToParent: Boolean
 ) -> Binding

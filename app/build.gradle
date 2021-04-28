@@ -14,6 +14,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         applicationId "pl.valueadd.mvi"
         minSdkVersion deps.build_version.min_sdk
@@ -88,5 +92,5 @@ dependencies {
     implementation deps.androidx.nav_runtime
     implementation deps.androidx.nav_fragment
     implementation deps.androidx.nav_ui_ktx
-    implementation "androidx.lifecycle:lifecycle-common:2.2.0"
+    implementation deps.lifecycle.commons
 }

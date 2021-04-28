@@ -19,11 +19,12 @@ versions.androidx_viewpager = "1.0.0"
 versions.androidx_multidex = "2.0.0"
 versions.androidx_card_view = "1.0.0"
 versions.androidx_grid_layout = "1.0.0"
-versions.androidx_annotation = "1.1.0"
-versions.lifecycle = "2.0.0"
+versions.androidx_annotation = "1.2.0"
+versions.lifecycle = "2.3.1"
 versions.material_dialogs = "2.6.0"
 versions.material_progress_bar = "1.6.1"
 versions.androidx_nav = "2.3.3"
+versions.activity_version = "1.2.2"
 
 /* Persistence */
 versions.room = "2.1.0"
@@ -144,6 +145,7 @@ androidx.annotation = "androidx.annotation:annotation:$versions.androidx_annotat
 androidx.nav_runtime = "androidx.navigation:navigation-runtime-ktx:$versions.androidx_nav"
 androidx.nav_fragment = "androidx.navigation:navigation-fragment-ktx:$versions.androidx_nav"
 androidx.nav_ui_ktx = "androidx.navigation:navigation-ui-ktx:$versions.androidx_nav"
+androidx.activity = "androidx.activity:activity-ktx:$versions.activity_version"
 deps.androidx = androidx
 
 /**
@@ -174,6 +176,7 @@ lifecycle.compiler = "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle"
 lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
 lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
 lifecycle.livedata = "androidx.lifecycle:lifecycle-livedata:$versions.lifecycle"
+lifecycle.commons = "androidx.lifecycle:lifecycle-common:$versions.lifecycle"
 deps.lifecycle = lifecycle
 
 /**

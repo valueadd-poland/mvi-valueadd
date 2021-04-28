@@ -1,8 +1,6 @@
 package pl.valueadd.mvi.fragment.base
 
 import android.os.Bundle
-import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.viewbinding.ViewBinding
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

@@ -5,7 +5,6 @@ import android.view.View
 import com.mikepenz.fastadapter.IItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import io.reactivex.Observable
-import pl.valueadd.mvi.example.R
 import pl.valueadd.mvi.example.databinding.FragmentSecondBinding
 import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
@@ -50,10 +49,5 @@ class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBas
 
     private fun setupView(): Unit = with(requireBinding) {
         recyclerView.adapter = listAdapter
-    }
-
-    companion object {
-        fun createInstance(): SecondFragment =
-            SecondFragment()
     }
 }

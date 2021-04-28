@@ -236,14 +236,13 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         viewStateReducerDisposable =
             currentViewIntentsSubject
                 .flatMap(::mapViewIntentToPartialState)
-                .doOnError(::onError)
                 .mergeWith(Observable.merge(providePresenterIntents()))
                 .scan(currentState, this::reduce)
                 .distinctUntilChanged()
                 .doOnNext { currentState = it }
                 .subscribe(
                     viewStateBehaviorSubject::onNext,
-                    viewStateBehaviorSubject::onError
+                    ::onError
                 )
     }
 

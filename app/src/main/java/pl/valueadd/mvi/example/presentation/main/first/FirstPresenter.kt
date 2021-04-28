@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 class FirstPresenter @Inject constructor() : AbstractPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>() {
     companion object {
-        private const val PROCESING_DELAY = 5L
+        private const val PROCESSING_DELAY = 5L
     }
 
     override fun mapViewIntentToPartialState(viewIntent: FirstView.Intent): Observable<out FirstViewState.PartialState> =
@@ -46,7 +46,7 @@ class FirstPresenter @Inject constructor() : AbstractPresenter<FirstViewState, F
         return Observable
             .just(currentState.count)
             .doOnNext { Log.d("MVI-FirstPresenter", "processData") }
-            .delay(PROCESING_DELAY, TimeUnit.SECONDS)
+            .delay(PROCESSING_DELAY, TimeUnit.SECONDS)
             .map { count -> FirstViewState.PartialState.ProcessDataSuccess("$count%") }
     }
 }

@@ -19,7 +19,6 @@ abstract class BaseActivity<Binding : ViewBinding> :
     protected val requireBinding: Binding
         get() = requireNotNull(binding)
 
-
     /* Life cycle methods */
 
     @CallSuper

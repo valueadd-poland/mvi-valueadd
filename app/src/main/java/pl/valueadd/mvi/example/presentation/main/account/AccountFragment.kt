@@ -1,36 +1,38 @@
 package pl.valueadd.mvi.example.presentation.main.account
 
-import androidx.appcompat.widget.Toolbar
+import android.os.Bundle
+import android.view.View
 import io.reactivex.Observable
 import pl.valueadd.mvi.example.R
 import pl.valueadd.mvi.example.databinding.FragmentAccountBinding
-import pl.valueadd.mvi.example.presentation.base.AbstractBackMviFragment
+import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.example.utility.extension.applyTextChanges
 import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
 import pl.valueadd.mvi.fragment.delegate.destroyview.DestroyViewIntentDelegate
 import javax.inject.Inject
 
 class AccountFragment :
-    AbstractBackMviFragment<AccountView, AccountViewState, AccountView.Intent, AccountPresenter, FragmentAccountBinding>(),
+    AbstractBaseMviFragment<AccountView, AccountViewState, AccountView.Intent, AccountPresenter, FragmentAccountBinding>(),
     AccountView {
 
     @Inject
     override lateinit var presenter: AccountPresenter
 
-    override val navigationIcon: Int
-        get() = R.drawable.ic_arrow_back_white_24dp
-
-    override val toolbarNavigation: Toolbar
-        get() = requireBinding.baseAppBarLayout.baseToolbar
-
     override val bindingInflater: FragmentBindingInflater<FragmentAccountBinding>
         get() = FragmentAccountBinding::inflate
 
-    override val titleRes: Int =
-        R.string.account_title
-
     private val destroyViewIntent
             by DestroyViewIntentDelegate(this, ::provideDestroyViewIntent)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() = with(requireBinding.baseAppBarLayout.baseToolbar) {
+        setTitle(R.string.account_title)
+        setupWithNavController()
+    }
 
     override fun render(state: AccountViewState): Unit = with(requireBinding) {
         firstNameText.applyTextChanges(state.firstName)
@@ -52,11 +54,5 @@ class AccountFragment :
             surnameText.text.toString(),
             emailText.text.toString()
         )
-    }
-
-    companion object {
-
-        fun createInstance(): AccountFragment =
-            AccountFragment()
     }
 }

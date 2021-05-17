@@ -11,9 +11,13 @@ import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegate
 import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentDelegateImpl
 import pl.valueadd.mvi.presenter.IBaseViewState
 
-abstract class BaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseIntent, P : BaseMviPresenter<VS, *, *, V>, Binding : ViewBinding> :
-    BaseFragment<Binding>(),
-    IBaseView<VS, VI> {
+abstract class BaseMviFragment<
+        V : IBaseView<VS, *, *>,
+        VS : IBaseViewState,
+        VI : IBaseIntent,
+        VE : IBaseView.IBaseEffect,
+        P : BaseMviPresenter<VS, *, *, *, V>,
+        Binding : ViewBinding> : BaseFragment<Binding>(), IBaseView<VS, VI, VE> {
 
     /* BaseMviFragment */
 

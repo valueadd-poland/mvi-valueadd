@@ -46,7 +46,7 @@ class BaseMviPresenterTest {
     fun `Should throw exception when old view was not detached before attaching new one`() {
         // Given
         val firstView = createMockView(Observable.never())
-        val secondView: IBaseView<TestViewState, TestViewIntent> = mockk()
+        val secondView: IBaseView<TestViewState, TestViewIntent, TestViewEffect> = mockk()
 
         presenter.initializeState(firstView)
         presenter.attachView(firstView)
@@ -267,11 +267,79 @@ class BaseMviPresenterTest {
         verify(exactly = 1) { mockTestLogger.logError(mockThrowable) }
     }
 
-    private fun createMockView(viewIntentsObservable: Observable<TestViewIntent>): IBaseView<TestViewState, TestViewIntent> {
+    @Test
+    fun `Should call handleEffect when view is attached`() {
+        // Given
+        val effect: TestViewEffect = mockk()
+        val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
+        val mockView = createMockView(viewIntentsSubject)
+        presenter.initializeState(mockView)
+        presenter.attachView(mockView)
+
+        // When
+        presenter.pushTestEffect(effect)
+
+        // Then
+        verify(exactly = 1) { mockView.handleViewEffect(effect) }
+    }
+
+    @Test
+    fun `Should call handleEffect after view will be attached`() {
+        // Given
+        val effect: TestViewEffect = mockk()
+        val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
+        val mockView = createMockView(viewIntentsSubject)
+        presenter.initializeState(mockView)
+
+        // When
+        presenter.pushTestEffect(effect)
+        presenter.attachView(mockView)
+
+        // Then
+        verify(exactly = 1) { mockView.handleViewEffect(effect) }
+    }
+
+    @Test
+    fun `Should call handleEffect after view will be re-attached`() {
+        // Given
+        val effect: TestViewEffect = mockk()
+        val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
+        val mockView = createMockView(viewIntentsSubject)
+        presenter.initializeState(mockView)
+        presenter.attachView(mockView)
+        presenter.detachView()
+
+        // When
+        presenter.pushTestEffect(effect)
+        presenter.attachView(mockView)
+
+        // Then
+        verify(exactly = 1) { mockView.handleViewEffect(effect) }
+    }
+
+    @Test
+    fun `Should not call handleEffect after view is detached`() {
+        // Given
+        val effect: TestViewEffect = mockk()
+        val viewIntentsSubject = PublishSubject.create<TestViewIntent>()
+        val mockView = createMockView(viewIntentsSubject)
+        presenter.initializeState(mockView)
+        presenter.attachView(mockView)
+        presenter.detachView()
+
+        // When
+        presenter.pushTestEffect(effect)
+
+        // Then
+        verify(exactly = 0) { mockView.handleViewEffect(effect) }
+    }
+
+    private fun createMockView(viewIntentsObservable: Observable<TestViewIntent>): IBaseView<TestViewState, TestViewIntent, TestViewEffect> {
         return mockk {
             every { provideViewIntents() } returns listOf(viewIntentsObservable)
             every { render(any()) } answers {}
             every { provideInitialViewState() } returns TestViewState()
+            every { handleViewEffect(any()) } answers {}
         }
     }
 }
@@ -281,7 +349,7 @@ private class TestPresenter(
     private val reducer: TestReducer,
     private val presenterObservable: Observable<TestPartialState>,
     private val testErrorLogger: TestErrorLogger
-) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, IBaseView<TestViewState, TestViewIntent>>(Schedulers.trampoline()) {
+) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestViewEffect, IBaseView<TestViewState, TestViewIntent, TestViewEffect>>(Schedulers.trampoline()) {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
 
@@ -302,6 +370,10 @@ private class TestPresenter(
     override fun onError(throwable: Throwable) {
         testErrorLogger.logError(throwable)
     }
+
+    fun pushTestEffect(effect: TestViewEffect) {
+        pushViewEffect(effect)
+    }
 }
 
 private class TestViewState(var someProperty: Int = 0) :
@@ -311,6 +383,8 @@ private class TestPartialState(var someProperty: Int) :
     IBasePartialState
 
 private class TestViewIntent : IBaseView.IBaseIntent
+
+private class TestViewEffect : IBaseView.IBaseEffect
 
 private class TestViewIntentToPartialStateMapper {
     fun mapViewIntentToPartialState(viewIntent: TestViewIntent): Observable<out TestPartialState> {

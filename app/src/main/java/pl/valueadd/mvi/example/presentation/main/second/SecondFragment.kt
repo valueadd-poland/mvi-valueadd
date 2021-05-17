@@ -11,7 +11,7 @@ import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
 import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
-class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, SecondPresenter, FragmentSecondBinding>(),
+class SecondFragment : AbstractBaseMviFragment<SecondView, SecondViewState, IBaseView.IBaseIntent, IBaseView.IBaseEffect, SecondPresenter, FragmentSecondBinding>(),
     SecondView {
 
     @Inject

@@ -14,7 +14,7 @@ import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class ThirdFragment :
-    AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, ThirdPresenter, FragmentThirdBinding>(),
+    AbstractBaseMviFragment<ThirdView, ThirdViewState, IBaseView.IBaseIntent, IBaseView.IBaseEffect, ThirdPresenter, FragmentThirdBinding>(),
     ThirdView {
 
     @Inject

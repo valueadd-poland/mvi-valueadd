@@ -7,8 +7,8 @@ import pl.valueadd.mvi.presenter.IBasePartialState
 import pl.valueadd.mvi.presenter.IBaseView
 import pl.valueadd.mvi.presenter.IBaseViewState
 
-abstract class AbstractPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>> :
-    BaseMviPresenter<VS, PS, VI, V>(AndroidSchedulers.mainThread()) {
+abstract class AbstractPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, VE : IBaseView.IBaseEffect, V : IBaseView<VS, VI, VE>> :
+    BaseMviPresenter<VS, PS, VI, VE, V>(AndroidSchedulers.mainThread()) {
 
     override fun onError(throwable: Throwable) {
         super.onError(throwable)

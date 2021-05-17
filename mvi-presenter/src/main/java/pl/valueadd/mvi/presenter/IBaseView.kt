@@ -3,9 +3,13 @@ package pl.valueadd.mvi.presenter
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 
-interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposable {
+interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent, VE : IBaseView.IBaseEffect> : Disposable {
 
     fun render(state: VS)
+
+    fun handleViewEffect(effect: VE) {
+        // No implementation required by default
+    }
 
     /**
      * Example implementation:
@@ -24,4 +28,6 @@ interface IBaseView<VS : IBaseViewState, VI : IBaseView.IBaseIntent> : Disposabl
     fun provideInitialViewState(): VS
 
     interface IBaseIntent
+
+    interface IBaseEffect
 }

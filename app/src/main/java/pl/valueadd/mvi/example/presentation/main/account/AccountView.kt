@@ -3,7 +3,7 @@ package pl.valueadd.mvi.example.presentation.main.account
 import pl.valueadd.mvi.presenter.IBaseView
 
 interface AccountView :
-    IBaseView<AccountViewState, AccountView.Intent> {
+    IBaseView<AccountViewState, AccountView.Intent, IBaseView.IBaseEffect> {
 
     sealed class Intent : IBaseView.IBaseIntent {
         data class OnDestroyView(

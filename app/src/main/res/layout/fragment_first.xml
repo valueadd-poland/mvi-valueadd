@@ -1,85 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/first_title" />
+    android:layout_above="@+id/bottomNavigation">
 
     <LinearLayout
+        android:id="@+id/firstFragmentLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/first_result" />
+            android:text="@string/first_title" />
 
-        <TextView
-            android:id="@+id/resultValueText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:gravity="center"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/first_result" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/aboutButton"
-        style="@style/AppTheme.Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big"
-        android:text="@string/about_title" />
+            <TextView
+                android:id="@+id/resultValueText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big"
-        android:layout_marginBottom="@dimen/margin_big"
-        android:gravity="center"
-        android:orientation="horizontal">
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addButton"
+            android:id="@+id/aboutButton"
             style="@style/AppTheme.Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/first_add" />
+            android:layout_marginTop="@dimen/margin_big"
+            android:text="@string/about_title" />
 
-        <TextView
-            android:id="@+id/counterText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_big"
-            android:layout_marginEnd="@dimen/margin_big"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            tools:text="15" />
+            android:layout_marginTop="@dimen/margin_big"
+            android:layout_marginBottom="@dimen/margin_big"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addButton"
+                style="@style/AppTheme.Widget.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_add" />
+
+            <TextView
+                android:id="@+id/counterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_big"
+                android:layout_marginEnd="@dimen/margin_big"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                tools:text="15" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/removeButton"
+                style="@style/AppTheme.Widget.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/first_remove" />
+
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/removeButton"
+            android:id="@+id/processButton"
             style="@style/AppTheme.Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/first_remove" />
+            android:layout_marginTop="@dimen/margin_big"
+            android:text="@string/about_process" />
 
     </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/processButton"
-        style="@style/AppTheme.Widget.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_big"
-        android:text="@string/about_process" />
-
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -6,7 +6,7 @@ import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class AboutPresenter @Inject constructor() :
-    AbstractPresenter<AboutViewState, AboutViewState.PartialState, IBaseView.IBaseIntent, AboutView>() {
+    AbstractPresenter<AboutViewState, AboutViewState.PartialState, IBaseView.IBaseIntent, IBaseView.IBaseEffect, AboutView>() {
 
     override fun reduce(
         previousState: AboutViewState,

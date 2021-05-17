@@ -12,9 +12,9 @@ import pl.valueadd.mvi.presenter.IBaseView
  *
  * @see MviFragmentDelegateImpl
  */
-class MviFragmentSaveInstanceStateDelegateImpl<V : IBaseView<VS, *>, VS : IBaseViewState>(
+class MviFragmentSaveInstanceStateDelegateImpl<V : IBaseView<VS, *, *>, VS : IBaseViewState>(
     fragment: V,
-    presenter: BaseMviPresenter<VS, *, *, V>
+    presenter: BaseMviPresenter<VS, *, *, *, V>
 ) : MviFragmentDelegateImpl<V>(fragment, presenter),
     MviFragmentSaveInstanceStateDelegate<VS> {
 

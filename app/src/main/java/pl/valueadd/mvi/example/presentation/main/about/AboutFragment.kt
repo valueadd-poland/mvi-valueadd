@@ -11,7 +11,7 @@ import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class AboutFragment :
-    AbstractBaseMviFragment<AboutView, AboutViewState, IBaseView.IBaseIntent, AboutPresenter, FragmentAboutBinding>(),
+    AbstractBaseMviFragment<AboutView, AboutViewState, IBaseView.IBaseIntent, IBaseView.IBaseEffect, AboutPresenter, FragmentAboutBinding>(),
     AboutView {
 
     override val bindingInflater: FragmentBindingInflater<FragmentAboutBinding>

@@ -6,12 +6,16 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.UnicastSubject
 import pl.valueadd.mvi.exception.ViewNotAttachedException
 import pl.valueadd.mvi.exception.ViewWasNotDetachedException
 
-abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI : IBaseView.IBaseIntent, V : IBaseView<VS, VI>>(
-    mainThread: Scheduler
-) : IMviPresenter<V> {
+abstract class BaseMviPresenter<
+        VS : IBaseViewState,
+        PS : IBasePartialState,
+        VI : IBaseView.IBaseIntent,
+        VE : IBaseView.IBaseEffect,
+        V : IBaseView<VS, VI, VE>>(mainThread: Scheduler) : IMviPresenter<V> {
 
     //region Variables
 
@@ -75,11 +79,21 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     private var viewStateConsumerDisposable: Disposable? = null
 
     /**
+     * A disposable of currently bound consumer for emission of view effects.
+     */
+    private var viewEffectConsumerDisposable: Disposable? = null
+
+    /**
      * A subject to pass emission of wrapped intents to currently bound view's consumer.
      */
     private val viewStateBehaviorSubject: BehaviorSubject<VS> by lazy {
         BehaviorSubject.createDefault(currentState)
     }
+
+    /**
+     * A subject to pass emission of view effects to currently bound view's consumer.
+     */
+    private var viewEffectUnicastSubject = UnicastSubject.create<VE>()
 
     /**
      * A subject to wrap view's intents emission.
@@ -92,7 +106,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     //region Lifecycle methods
 
     /**
-     * If view hasn't attached the first time, the presenter calls [IBaseView.provideInitialViewState]
+     * If view wasn't attached the first time, the presenter calls [IBaseView.provideInitialViewState]
      * to set initial value of [currentState]
      */
     override fun initializeState(view: V) {
@@ -123,6 +137,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         }
 
         subscribeViewStateConsumer()
+        subscribeViewEffectConsumer()
         bindIntents(view)
     }
 
@@ -135,6 +150,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
         this.internalView = null
 
         disposeViewStateConsumer()
+        disposeViewEffectConsumer()
 
         disposeCurrentViewIntents()
     }
@@ -191,6 +207,13 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     protected open fun providePresenterIntents(): List<Observable<out PS>> = listOf()
 
     /**
+     * Pushes view effect to view if attached or if detached, will emit them after view attach
+     */
+    protected fun pushViewEffect(effect: VE) {
+        viewEffectUnicastSubject.onNext(effect)
+    }
+
+    /**
      * Method which is called when an Exception occurred during observing external
      * observables or reducing states.
      */
@@ -214,7 +237,7 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
     }
 
     /**
-     * Subscribe to [cold observable][viewStateBehaviorSubject] of wrapped intents to [render][IBaseView.render]
+     * Subscribe to [hot observable][viewStateBehaviorSubject] of wrapped intents to [render][IBaseView.render]
      * the reduced [view state][IBaseViewState]
      *
      * This method should be called **every time** when view is attached.
@@ -224,6 +247,18 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
             .subscribeOn(viewStateSubscriptionScheduler)
             .observeOn(viewStateObservationScheduler)
             .subscribe(view::render)
+    }
+
+    /**
+     * Subscribe to [hot observable][viewEffectUnicastSubject] of view effets to handle [IBaseView.handleViewEffect]
+     *
+     * This method should be called **every time** when view is attached.
+     */
+    private fun subscribeViewEffectConsumer() {
+        viewEffectConsumerDisposable = viewEffectUnicastSubject
+            .subscribeOn(viewStateSubscriptionScheduler)
+            .observeOn(viewStateObservationScheduler)
+            .subscribe(view::handleViewEffect)
     }
 
     /**
@@ -268,6 +303,17 @@ abstract class BaseMviPresenter<VS : IBaseViewState, PS : IBasePartialState, VI 
             it.dispose()
             viewStateConsumerDisposable = null
         }
+    }
+
+    /**
+     * Dispose view's consumer subscription.
+     */
+    private fun disposeViewEffectConsumer() {
+        viewEffectConsumerDisposable?.let {
+            it.dispose()
+            viewEffectConsumerDisposable = null
+        }
+        viewEffectUnicastSubject = UnicastSubject.create()
     }
 
     /**

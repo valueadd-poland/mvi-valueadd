@@ -9,10 +9,11 @@ import pl.valueadd.mvi.example.presentation.base.AbstractBaseMviFragment
 import pl.valueadd.mvi.example.utility.extension.applyTextChanges
 import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
 import pl.valueadd.mvi.fragment.delegate.destroyview.DestroyViewIntentDelegate
+import pl.valueadd.mvi.presenter.IBaseView
 import javax.inject.Inject
 
 class AccountFragment :
-    AbstractBaseMviFragment<AccountView, AccountViewState, AccountView.Intent, AccountPresenter, FragmentAccountBinding>(),
+    AbstractBaseMviFragment<AccountView, AccountViewState, AccountView.Intent, IBaseView.IBaseEffect, AccountPresenter, FragmentAccountBinding>(),
     AccountView {
 
     @Inject

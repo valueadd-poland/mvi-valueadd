@@ -13,8 +13,13 @@ import pl.valueadd.mvi.fragment.delegate.fragment.MviFragmentSaveInstanceStateDe
 import pl.valueadd.mvi.presenter.BaseMviPresenter
 import pl.valueadd.mvi.presenter.IBaseView
 
-abstract class AbstractBaseMviFragment<V : IBaseView<VS, *>, VS : IBaseViewState, VI : IBaseView.IBaseIntent, P : BaseMviPresenter<VS, *, *, V>, Binding : ViewBinding> :
-    BaseMviFragment<V, VS, VI, P, Binding>() {
+abstract class AbstractBaseMviFragment<
+        V : IBaseView<VS, *, *>,
+        VS : IBaseViewState,
+        VI : IBaseView.IBaseIntent,
+        VE : IBaseView.IBaseEffect,
+        P : BaseMviPresenter<VS, *, *, *, V>,
+        Binding : ViewBinding> : BaseMviFragment<V, VS, VI, VE, P, Binding>() {
 
     protected val restoredViewState: VS?
         get() = mviDelegate.restoredViewState

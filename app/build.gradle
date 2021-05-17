@@ -85,6 +85,7 @@ dependencies {
     implementation deps.androidx.appcompat
     implementation deps.androidx.core_ktx
     implementation deps.androidx.constraint_layout
+    implementation deps.androidx.coordinator_layout
     implementation deps.androidx.recycler_view
     implementation deps.androidx.material
     implementation deps.androidx.multidex

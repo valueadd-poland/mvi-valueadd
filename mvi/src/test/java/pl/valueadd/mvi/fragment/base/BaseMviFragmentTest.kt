@@ -87,7 +87,7 @@ class BaseMviFragmentTest {
 }
 
 private class TestMviFragment :
-    BaseMviFragment<TestView, TestViewState, TestViewIntent, TestPresenter, TestFragmentViewBinding>(),
+    BaseMviFragment<TestView, TestViewState, TestViewIntent, TestViewEffect, TestPresenter, TestFragmentViewBinding>(),
     TestView {
 
     override lateinit var presenter: TestPresenter
@@ -109,7 +109,7 @@ private class TestMviFragment :
 private class TestPresenter(
     private val mapper: TestViewIntentToPartialStateMapper,
     private val reducer: TestReducer
-) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestView>(Schedulers.trampoline()) {
+) : BaseMviPresenter<TestViewState, TestPartialState, TestViewIntent, TestViewEffect, TestView>(Schedulers.trampoline()) {
     override val viewStateSubscriptionScheduler = Schedulers.trampoline()
     override val viewStateObservationScheduler = Schedulers.trampoline()
 
@@ -125,7 +125,7 @@ private class TestPresenter(
 }
 
 private interface TestView :
-    IBaseView<TestViewState, TestViewIntent>
+    IBaseView<TestViewState, TestViewIntent, TestViewEffect>
 
 @Parcelize
 private class TestViewState(var someProperty: Int = 0) :
@@ -135,6 +135,8 @@ private class TestPartialState(var someProperty: Int) :
     IBasePartialState
 
 private class TestViewIntent : IBaseView.IBaseIntent
+
+private class TestViewEffect : IBaseView.IBaseEffect
 
 private class TestViewIntentToPartialStateMapper {
     fun mapViewIntentToPartialState(viewIntent: TestViewIntent): Observable<out TestPartialState> {

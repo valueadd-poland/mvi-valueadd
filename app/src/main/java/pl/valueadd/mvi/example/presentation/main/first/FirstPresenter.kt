@@ -8,7 +8,7 @@ import pl.valueadd.mvi.example.presentation.base.AbstractPresenter
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class FirstPresenter @Inject constructor() : AbstractPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView>() {
+class FirstPresenter @Inject constructor() : AbstractPresenter<FirstViewState, FirstViewState.PartialState, FirstView.Intent, FirstView.Effect, FirstView>() {
     companion object {
         private const val PROCESSING_DELAY = 5L
     }
@@ -45,7 +45,10 @@ class FirstPresenter @Inject constructor() : AbstractPresenter<FirstViewState, F
     private fun handleProcessDataIntent(): Observable<out FirstViewState.PartialState> {
         return Observable
             .just(currentState.count)
-            .doOnNext { Log.d("MVI-FirstPresenter", "processData") }
+            .doOnNext {
+                Log.d("MVI-FirstPresenter", "processData")
+                pushViewEffect(FirstView.Effect.ShowMessage("Started processing"))
+            }
             .delay(PROCESSING_DELAY, TimeUnit.SECONDS)
             .map { count -> FirstViewState.PartialState.ProcessDataSuccess("$count%") }
     }

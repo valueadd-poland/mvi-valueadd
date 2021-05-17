@@ -32,4 +32,12 @@ allprojects {
     apply from: "$rootDir/scripts/detekt.gradle"
     apply from: "$rootDir/scripts/ktlint.gradle"
     apply from: "$rootDir/scripts/pmd.gradle"
+
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            languageVersion = "1.3"
+            useIR = findProperty("kotlin.ir.enabled")?.toBoolean() == true
+        }
+    }
 }

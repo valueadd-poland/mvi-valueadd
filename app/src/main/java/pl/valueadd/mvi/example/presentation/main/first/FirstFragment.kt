@@ -3,6 +3,7 @@ package pl.valueadd.mvi.example.presentation.main.first
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Observable
 import pl.valueadd.mvi.example.R
 import pl.valueadd.mvi.example.databinding.FragmentFirstBinding
@@ -13,7 +14,7 @@ import pl.valueadd.mvi.fragment.base.FragmentBindingInflater
 import javax.inject.Inject
 
 class FirstFragment :
-    AbstractBaseMviFragment<FirstView, FirstViewState, FirstView.Intent, FirstPresenter, FragmentFirstBinding>(),
+    AbstractBaseMviFragment<FirstView, FirstViewState, FirstView.Intent, FirstView.Effect, FirstPresenter, FragmentFirstBinding>(),
     FirstView {
 
     @Inject
@@ -34,13 +35,17 @@ class FirstFragment :
         return restoredViewState ?: FirstViewState()
     }
 
-    override fun navigateToAboutView() {
-        findNavController().navigate(R.id.action_firstFragment_to_aboutFragment)
-    }
-
     override fun render(state: FirstViewState): Unit = with(requireBinding) {
         counterText.text = state.count.toString()
         resultValueText.text = state.value
+    }
+
+    override fun handleViewEffect(effect: FirstView.Effect) {
+        when (effect) {
+            is FirstView.Effect.ShowMessage -> Snackbar
+                .make(requireBinding.firstFragmentLinearLayout, effect.message, Snackbar.LENGTH_SHORT)
+                .show()
+        }
     }
 
     override fun provideViewIntents(): List<Observable<FirstView.Intent>> = listOf(
@@ -68,5 +73,9 @@ class FirstFragment :
         requireBinding.aboutButton
             .throttleClicks()
             .onSuccess(disposables, { navigateToAboutView() })
+    }
+
+    private fun navigateToAboutView() {
+        findNavController().navigate(R.id.action_firstFragment_to_aboutFragment)
     }
 }

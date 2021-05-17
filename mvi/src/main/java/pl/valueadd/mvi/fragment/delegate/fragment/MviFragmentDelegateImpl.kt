@@ -10,9 +10,9 @@ import pl.valueadd.mvi.presenter.IBaseView
  *
  * This API requires call every fragment's lifecycle callback event defined at [MviFragmentDelegate].
  */
-open class MviFragmentDelegateImpl<V : IBaseView<*, *>>(
+open class MviFragmentDelegateImpl<V : IBaseView<*, *, *>>(
     protected val fragment: V,
-    protected val presenter: BaseMviPresenter<*, *, *, V>
+    protected val presenter: BaseMviPresenter<*, *, *, *, V>
 ) : MviFragmentDelegate {
 
     @CallSuper

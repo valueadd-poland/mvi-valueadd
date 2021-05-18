@@ -1,20 +1,16 @@
-# mvi-valueadd [![CircleCI](https://circleci.com/gh/valueadd-poland/mvi-valueadd/tree/develop.svg?style=svg)](https://circleci.com/gh/valueadd-poland/mvi-valueadd/tree/develop) [![Download](https://api.bintray.com/packages/valueadd-poland/maven/mvi/images/download.svg) ](https://bintray.com/valueadd-poland/maven/mvi/_latestVersion)
+# mvi-valueadd [![CircleCI](https://circleci.com/gh/valueadd-poland/mvi-valueadd/tree/develop.svg?style=svg)](https://circleci.com/gh/valueadd-poland/mvi-valueadd/tree/develop)
 This is library for handling mvi architecture and android lifecycle events, fully written in kotlin. <br/>
 
 # Dependency
-`implementation 'pl.valueadd:mvi:{current_version}'`
 
-### Upload to Bintray
 
-#### mvi
+    allprojects {
+	      repositories {
+		      	...
+		      	maven { url 'https://jitpack.io' }
+		    }
+	  }
 
-```
-./gradlew :mvi:bintrayUpload
-```
+...
 
-#### mvi-presenter
-
-```
-./gradlew :mvi-presenter:bintrayUpload
-```
-
+`implementation 'com.github.valueadd-poland:mvi-valueadd:{current_version}'`

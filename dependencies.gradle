@@ -84,7 +84,6 @@ versions.junit5_runner = "1.6.2.0"
 
 /* Publication plugins */
 versions.android_maven = "1.4.1"
-versions.bintray = "1.7.3"
 deps.versions = versions
 ext.versions = versions
 
@@ -99,7 +98,6 @@ build.kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version
 build.realm_gradle_plugin = "io.realm:realm-gradle-plugin:$versions.realm"
 build.junit5_runner = "de.mannodermaus.gradle.plugins:android-junit5:$versions.junit5_runner"
 build.android_maven = "com.github.dcendents:android-maven-gradle-plugin:$versions.android_maven"
-build.bintray =  "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.bintray"
 build.safeargs = "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.androidx_nav"
 deps.build = build
 

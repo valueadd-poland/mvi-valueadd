@@ -1,5 +1,6 @@
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+apply from: "$rootDir/scripts/versioning.gradle"
 
 // Java library configuration
 java {
@@ -27,6 +28,3 @@ dependencies {
     testImplementation deps.test.junit_params
     testRuntimeOnly deps.test.junit_engine
 }
-
-// Apply last plugins
-apply from: 'publish.gradle'

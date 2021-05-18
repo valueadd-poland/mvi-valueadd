@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs"
-apply from: 'publish.gradle'
+apply from: "$rootDir/scripts/versioning.gradle"
 
 // Android library configuration
 android {

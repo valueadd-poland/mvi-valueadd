@@ -11,14 +11,12 @@ buildscript {
         classpath deps.build.kotlin_gradle_plugin
         classpath deps.build.junit5_runner
         classpath deps.build.android_maven
-        classpath deps.build.bintray
         classpath deps.build.safeargs
     }
 }
 
 plugins {
     id 'io.gitlab.arturbosch.detekt' version "1.0.0"
-    id 'com.jfrog.bintray' version "1.8.4" apply false
     id 'maven-publish'
 }
 

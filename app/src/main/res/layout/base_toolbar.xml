@@ -6,14 +6,14 @@
     android:id="@+id/appBarLayout"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:theme="@style/BaseMviLibraryTheme.ThemeOverlay.ActionBar">
+    android:theme="@style/AppTheme.ThemeOverlay.ActionBar">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/baseToolbar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:popupTheme="@style/BaseMviLibraryTheme.ThemeOverlay" />
+        app:popupTheme="@style/AppTheme.ThemeOverlay" />
 
     <LinearLayout
         android:layout_width="match_parent"

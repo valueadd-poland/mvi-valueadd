@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs"
-apply from: "$rootDir/scripts/versioning.gradle"
+apply from: 'publish.gradle'
 
 // Android library configuration
 android {
@@ -58,8 +58,6 @@ dependencies {
     //AndroidX
     implementation deps.androidx.appcompat
     implementation deps.androidx.activity
-    implementation deps.androidx.core_ktx
-    implementation deps.androidx.material
 
     // Kotlin
     implementation deps.kotlin.stdlib_jdk8
@@ -67,8 +65,6 @@ dependencies {
     // Reactivex
     implementation deps.rx.java
     implementation deps.rx.android
-    implementation deps.rx.kotlin
-    implementation deps.rx.binding
 
     // Test dependencies
     testImplementation deps.test.mockk
